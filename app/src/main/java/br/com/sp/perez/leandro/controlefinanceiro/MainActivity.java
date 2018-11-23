@@ -45,6 +45,22 @@ public class MainActivity extends AppCompatActivity {
         //DAO
         contaRepository = new ContaRepository(this);
 
+        Conta c = new Conta();
+        //.setId(2L);
+        c.setDescricao("Descrição 1");
+        c.setSaldo_inicial(1000.02);
+        c.setSaldo_atual(10001.03);
+        contaRepository.salvarAtualizarConta(c);
+
+        //Conta c2 = contaRepository.listarContas().get(0);
+
+        //contaRepository.removerConta(contaRepository.listarContas().get(0));
+
+        //contaRepository.removerConta(c);
+
+        contas = contaRepository.listarContas();
+
+
         //RecyclerView e Adapter
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this);
@@ -53,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         //contasAdapter = new ContasAdapter(contas, this);
 
 
-        contasAdapter = new ContasAdapter(contas, getApplicationContext());
+        contasAdapter = new ContasAdapter(contas, this);
 
         recyclerView.setAdapter(contasAdapter);
 

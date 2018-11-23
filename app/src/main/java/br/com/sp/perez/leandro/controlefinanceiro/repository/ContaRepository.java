@@ -76,7 +76,7 @@ public class ContaRepository extends SQLiteOpenHelper {
     private ContentValues getContentValuesConta(Conta conta) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_DESCRICAO, conta.getDescricao());
-        contentValues.put(KEY_SALDO_INICIAL, conta.getSaldo_atual());
+        contentValues.put(KEY_SALDO_INICIAL, conta.getSaldo_inicial());
         contentValues.put(KEY_SALDO_ATUAL, conta.getSaldo_atual());
 
         return contentValues;
@@ -87,8 +87,8 @@ public class ContaRepository extends SQLiteOpenHelper {
 
         ContentValues contentValues = getContentValuesConta(conta);
 
-        if(conta.getId() > 0) //Atualiza
-            db.update(KEY_DATABASE_TABLE, contentValues, KEY_ID + " = ?", new String[]{String.valueOf(conta.getId())});
+        if(conta.getId() != null) //Atualiza
+           db.update(KEY_DATABASE_TABLE, contentValues, KEY_ID + " = ?", new String[]{String.valueOf(conta.getId())});
         else                  //Salva
             db.insert(KEY_DATABASE_TABLE, null, contentValues);
 
@@ -99,13 +99,20 @@ public class ContaRepository extends SQLiteOpenHelper {
     public void removerConta(Conta conta) {
         SQLiteDatabase db = this.getWritableDatabase();
 
+        conta.getId();
+
         db.delete(KEY_DATABASE_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(conta.getId())});
+
+
+        db.delete(KEY_DATABASE_TABLE, KEY_ID + "="
+                + conta.getId(), null);
 
         db.close();
     }
 
 
     private void setContaFromCursor(Cursor cursor, Conta conta) {
+        conta.setId             (cursor.getLong(cursor.getColumnIndex(KEY_ID)));
         conta.setDescricao      (cursor.getString(cursor.getColumnIndex(KEY_DESCRICAO)));
         conta.setSaldo_inicial  (cursor.getDouble(cursor.getColumnIndex(KEY_SALDO_INICIAL)));
         conta.setSaldo_atual    (cursor.getDouble(cursor.getColumnIndex(KEY_SALDO_ATUAL)));
