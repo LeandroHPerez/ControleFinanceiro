@@ -4,12 +4,26 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.sp.perez.leandro.controlefinanceiro.adapter.ContasAdapter;
+import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
+import br.com.sp.perez.leandro.controlefinanceiro.repository.ContaRepository;
+
 public class MainActivity extends AppCompatActivity {
+
+    public static RecyclerView recyclerView;
+    private ContasAdapter contasAdapter;
+    private List<Conta> contas = new ArrayList<>();
+    private ContaRepository contaRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +40,23 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        //DAO
+        contaRepository = new ContaRepository(this);
+
+        //RecyclerView e Adapter
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layout);
+
+        //contasAdapter = new ContasAdapter(contas, this);
+
+
+        contasAdapter = new ContasAdapter(contas, getApplicationContext());
+
+        recyclerView.setAdapter(contasAdapter);
+
     }
 
     @Override
