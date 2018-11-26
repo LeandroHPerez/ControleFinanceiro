@@ -43,11 +43,12 @@
             android:layout_height="wrap_content"
             android:text="@string/saldo_inicial">
         </TextView>
+
         <EditText
             android:id="@+id/editTextSaldoInicial"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </EditText>
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"></EditText>
 
 
         <TextView
@@ -56,11 +57,12 @@
             android:layout_height="wrap_content"
             android:text="@string/saldo_atual">
         </TextView>
+
         <EditText
             android:id="@+id/editTextSaldoAtual"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </EditText>
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"></EditText>
 
 
 

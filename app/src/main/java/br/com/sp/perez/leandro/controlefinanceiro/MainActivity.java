@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -37,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
     private List<Conta> contas = new ArrayList<>();
     private ContaRepository contaRepository;
 
+
+    //private static final String OPERACAO_ADICIONAR_CONTA = "OPERACAO_ADICIONAR_CONTA";
+    private final int REQUEST_CODE_NOVA_CONTA = 0;
+    private final int REQUEST_CODE_EDITAR_CONTA = 1;
+    public static final String EXTRA_CONTA = "EXTRA_CONTA";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +56,13 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("Action", null).show(); */
+
+                Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_NOVA_CONTA);
+
             }
         });
 
@@ -70,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         //contaRepository.removerConta(c);
 
-        contas = contaRepository.listarContas();
+
+
+        //contas = contaRepository.listarContas();
 
 
         //RecyclerView e Adapter
@@ -85,7 +100,10 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(contasAdapter);
 
-        //Ajuda o evento de clique
+
+        updateUI();
+
+        //Ajusta o evento de clique nos itens
         setupRecyclerView();
 
     }
@@ -114,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+////Ajusta o evento de clique nos itens
     private void setupRecyclerView() {
 
-        Toast.makeText(getApplicationContext(),"Entrou", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"Entrou", Toast.LENGTH_LONG).show();
 
 
         // Ajusta o listener de clique na lista
@@ -128,13 +146,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 //Toast da linha clicada para teste
-                Toast.makeText(getApplicationContext(),"Clicou no item = " + position, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Clicou no item = " + position, Toast.LENGTH_LONG).show();
 
-                /*
-                final Contato contato = contatos.get(position);
-                Intent i = new Intent(getApplicationContext(), DetalheActivity.class);
-                i.putExtra("contato", contato);
-                startActivityForResult(i, 2); */
+
+                Conta conta = contas.get(position);
+                Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
+                intent.putExtra(EXTRA_CONTA, conta);
+
+                //Editar conta
+                startActivityForResult(intent, REQUEST_CODE_EDITAR_CONTA);
+
+
             }
         });
 
@@ -174,4 +196,38 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+
+    private void showSnackBar(String msg) {
+        CoordinatorLayout coordinatorlayout= (CoordinatorLayout)findViewById(R.id.coordlayout);
+        Snackbar.make(coordinatorlayout, msg,
+                Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+
+
+
+    private void updateUI(){
+
+        contas.clear();
+        contas.addAll(contaRepository.listarContas());
+
+
+        recyclerView.getAdapter().notifyDataSetChanged();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == REQUEST_CODE_EDITAR_CONTA)
+            if (resultCode == RESULT_OK) {
+                showSnackBar(getResources().getString(R.string.conta_alterada));
+
+                updateUI();
+            }
+    }
 }

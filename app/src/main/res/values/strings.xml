@@ -6,4 +6,8 @@
     <string name="descricao">Descrição:</string>
     <string name="saldo_inicial">Saldo inicial:</string>
     <string name="saldo_atual">Saldo atual:</string>
+
+
+    <string name="conta_adicionada">Conta adicionada</string>
+    <string name="conta_alterada">Conta alterada</string>
 </resources>

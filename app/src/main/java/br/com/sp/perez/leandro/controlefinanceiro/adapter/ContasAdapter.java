@@ -74,7 +74,7 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
             btnDetalhes = (Button)       itemView.findViewById(R.id.btnDetalhes);
 
 
-            //Ajusta o click listener
+            //Atribui o click listener para a linha
             itemView.setOnClickListener(this);
 
 
@@ -83,7 +83,7 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
         @Override
         public void onClick(View v) {
             if (clickListener != null)
-                clickListener.onItemClick(getAdapterPosition()); //retorna a posição do clique
+                clickListener.onItemClick(getAdapterPosition()); //retorna a posição do clique //Returns the Adapter position of the item represented by this ViewHolder.
         }
     }
 
