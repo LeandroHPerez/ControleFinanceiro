@@ -22,7 +22,8 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
     private static List<Conta> contas;
     private Context context;
 
-
+    //Listener de cliques
+    private static ItemClickListener clickListener;
 
     public ContasAdapter(List<Conta> contas, Context context) {
         this.contas = contas;
@@ -55,7 +56,7 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
     }
 
 
-    public static class ContaViewHolder extends RecyclerView.ViewHolder {
+    public static class ContaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         final ImageView imgConta;
         final TextView txtDescricao;
@@ -73,6 +74,29 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
             btnDetalhes = (Button)       itemView.findViewById(R.id.btnDetalhes);
 
 
+            //Ajusta o click listener
+            itemView.setOnClickListener(this);
+
+
         }
+
+        @Override
+        public void onClick(View v) {
+            if (clickListener != null)
+                clickListener.onItemClick(getAdapterPosition()); //retorna a posição do clique
+        }
+    }
+
+
+
+
+    //Listener de cliques
+    public void setClickListener(ItemClickListener itemClickListener) {
+        clickListener = itemClickListener;
+    }
+
+    //Interface de clique
+    public interface ItemClickListener {
+        void onItemClick(int position);
     }
 }
