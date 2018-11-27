@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +80,11 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
             itemView.setOnClickListener(this);
 
 
+
+
+
+
+
         }
 
         @Override
@@ -99,4 +106,10 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
     public interface ItemClickListener {
         void onItemClick(int position);
     }
+
+
+
+
+
+
 }
