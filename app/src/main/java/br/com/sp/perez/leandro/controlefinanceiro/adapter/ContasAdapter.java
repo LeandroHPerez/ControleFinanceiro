@@ -73,7 +73,7 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
             txtDescricao = (TextView)    itemView.findViewById(R.id.txtDescricao);
             txtSaldoAtual = (TextView)   itemView.findViewById(R.id.txtSaldoAtual);
             txtSaldoInicial = (TextView) itemView.findViewById(R.id.txtSaldoInicial);
-            btnDetalhes = (Button)       itemView.findViewById(R.id.btnDetalhes);
+            btnDetalhes = (Button)       itemView.findViewById(R.id.btnNovaTransacao);
 
 
             //Atribui o click listener para a linha
