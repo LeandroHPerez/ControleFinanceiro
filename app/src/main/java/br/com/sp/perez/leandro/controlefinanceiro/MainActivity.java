@@ -1,5 +1,6 @@
 package br.com.sp.perez.leandro.controlefinanceiro;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView txtEmpty;
 
+    FloatingActionButton fab, fab1, fab2, fab3;
+    LinearLayout fabLayout1, fabLayout2, fabLayout3;
+    View fabBGLayout;
+    boolean isFABOpen=false;
+
 
     //private static final String OPERACAO_ADICIONAR_CONTA = "OPERACAO_ADICIONAR_CONTA";
     private final int REQUEST_CODE_NOVA_CONTA = 0;
@@ -56,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,11 +71,25 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show(); */
 
-                Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_NOVA_CONTA);
+
+
+                //Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
+                //startActivityForResult(intent, REQUEST_CODE_NOVA_CONTA);
+
+
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
 
             }
         });
+
+
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
 
 
         txtEmpty= (TextView) findViewById(R.id.empty_view);
@@ -111,6 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Ajusta o evento de clique nos itens
         setupRecyclerView();
+
+        ///Ajusta o clicque para float buttons
+        ajustarOnClickListenerFOABS();
 
     }
 
@@ -251,5 +275,98 @@ public class MainActivity extends AppCompatActivity {
                 updateUI();
             }
         }
+    }
+
+
+
+
+
+
+
+    private void showFABMenu(){
+        isFABOpen=true;
+
+        fab1.show();
+        fab2.show();
+        fab3.show();
+
+        fab.animate().rotationBy(135);
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab.animate().rotationBy(-135);
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
+        fab3.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if(!isFABOpen){
+                    fab1.hide();
+                    fab2.hide();
+                    fab3.hide();
+
+                }
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if(isFABOpen){
+            closeFABMenu();
+        }else{
+            super.onBackPressed();
+        }
+    }
+
+
+
+    private void ajustarOnClickListenerFOABS(){ //Ajusta o clicque para float buttons
+
+        //Nova conta
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_NOVA_CONTA);
+            }
+        });
+
+        //TODO nova transação
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // do whatever you want when the fab1 is clicked
+            }
+        });
+
+
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // do whatever you want when the fab1 is clicked
+            }
+        });
     }
 }
