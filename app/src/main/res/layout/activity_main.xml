@@ -48,53 +48,54 @@
         android:visibility="gone"
         app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
-    <android.support.design.widget.FloatingActionButton
+<!--    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
         android:layout_width="@dimen/standard_45"
         android:layout_height="@dimen/standard_45"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/standard_21"
+        app:fabSize="auto"
         android:visibility="gone"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        app:srcCompat="@android:drawable/ic_menu_camera" />-->
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/standard_21"
+        android:padding="0dp"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:backgroundTint="@android:color/transparent"
+        app:borderWidth="0dp"
+        app:fabCustomSize="45dp"
+        app:fabSize="auto"
+        app:maxImageSize="45dp"
+        app:srcCompat="@drawable/btn_transacao" />
 
-        <TextView
-            android:id="@+id/bbb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/fab2"
-
-            android:text="1111110,00"
-            android:layout_marginLeft="5dp"
-            android:textColor="@android:color/black"
-            android:textSize="12sp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab1"
-        android:layout_width="@dimen/standard_45"
-        android:layout_height="@dimen/standard_45"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/standard_21"
+        android:padding="0dp"
+        android:scaleType="fitXY"
         android:visibility="gone"
-        app:srcCompat="@drawable/get_money" />
+        app:backgroundTint="@android:color/transparent"
+        app:borderWidth="0dp"
+        app:fabCustomSize="45dp"
+        app:fabSize="auto"
+        app:maxImageSize="45dp"
+        app:srcCompat="@drawable/btn_conta" />
 
 
 
-        <TextView
-            android:id="@+id/aaa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/fab1"
-            android:gravity="bottom|left"
-            android:text="000000,00"
-            android:layout_marginLeft="5dp"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            android:visibility="invisible"/>
 
 
-
-        <android.support.design.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

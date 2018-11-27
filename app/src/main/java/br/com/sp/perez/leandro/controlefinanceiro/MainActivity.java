@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_CODE_EDITAR_CONTA = 1;
     public static final String EXTRA_CONTA = "EXTRA_CONTA";
 
+    private final int REQUEST_CODE_NOVA_TRANSACAO = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,33 +65,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show(); */
 
-
-
-                //Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
-                //startActivityForResult(intent, REQUEST_CODE_NOVA_CONTA);
-
-
-                if(!isFABOpen){
-                    showFABMenu();
-                }else{
-                    closeFABMenu();
-                }
-
-            }
-        });
-
-
-        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab = (FloatingActionButton) findViewById(R.id.fab);    //float action button Agrupador
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);  //Nova conta
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);  //Nova transação
         fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+
+        ///Ajusta o clicque para float buttons
+        ajustarOnClickListenerFOABS();
+
+
+
+
+
+
+
 
 
         txtEmpty= (TextView) findViewById(R.id.empty_view);
@@ -133,8 +123,7 @@ public class MainActivity extends AppCompatActivity {
         //Ajusta o evento de clique nos itens
         setupRecyclerView();
 
-        ///Ajusta o clicque para float buttons
-        ajustarOnClickListenerFOABS();
+
 
     }
 
@@ -332,17 +321,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() { //Tratamento do voltar
         if(isFABOpen){
-            closeFABMenu();
+            closeFABMenu(); //fecha o agrupador de foat action button
         }else{
-            super.onBackPressed();
+            super.onBackPressed(); //Faz a ação padrão do voltar
         }
     }
 
 
 
     private void ajustarOnClickListenerFOABS(){ //Ajusta o clicque para float buttons
+
+        //fab agrupador dos demais float buttons
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show(); */
+
+
+
+                //Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
+                //startActivityForResult(intent, REQUEST_CODE_NOVA_CONTA);
+
+
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+
+            }
+        });
+
 
         //Nova conta
         fab1.setOnClickListener(new View.OnClickListener() {
@@ -353,11 +366,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //TODO nova transação
+
+        //Nova transação
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // do whatever you want when the fab1 is clicked
+
+                Intent intent = new Intent(getApplicationContext(), TransacaoActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_NOVA_TRANSACAO);
             }
         });
 
