@@ -3,6 +3,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_conta">ContaActivity</string>
 
+    <string name="lista_vazia">Lista vazia</string>
+
+
     <string name="descricao">Descrição:</string>
     <string name="saldo_inicial">Saldo inicial:</string>
     <string name="saldo_atual">Saldo atual:</string>

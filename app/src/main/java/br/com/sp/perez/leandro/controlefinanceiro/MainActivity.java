@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private ContasAdapter contasAdapter;
     private List<Conta> contas = new ArrayList<>();
     private ContaRepository contaRepository;
+
+
+    private TextView txtEmpty;
 
 
     //private static final String OPERACAO_ADICIONAR_CONTA = "OPERACAO_ADICIONAR_CONTA";
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        txtEmpty= (TextView) findViewById(R.id.empty_view);
 
         //DAO
         contaRepository = new ContaRepository(this);
@@ -216,18 +222,34 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.getAdapter().notifyDataSetChanged();
 
+
+        if (recyclerView.getAdapter().getItemCount()==0)
+            txtEmpty.setVisibility(View.VISIBLE);
+        else
+            txtEmpty.setVisibility(View.GONE);
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
 
+        //Nova conta
+        if (requestCode == REQUEST_CODE_NOVA_CONTA) {
+            if (resultCode == RESULT_OK) {
+                showSnackBar(getResources().getString(R.string.conta_adicionada));
 
-        if (requestCode == REQUEST_CODE_EDITAR_CONTA)
+                updateUI();
+            }
+        }
+
+        //Editar conta
+        if (requestCode == REQUEST_CODE_EDITAR_CONTA) {
             if (resultCode == RESULT_OK) {
                 showSnackBar(getResources().getString(R.string.conta_alterada));
 
                 updateUI();
             }
+        }
     }
 }

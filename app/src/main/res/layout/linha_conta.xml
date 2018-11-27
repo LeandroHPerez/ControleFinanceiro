@@ -42,6 +42,17 @@
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
+
+                <TextView
+                    android:id="@+id/txtLblSaldoAtual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtDescricao"
+                    android:layout_toLeftOf="@id/txtSaldoAtual"
+                    android:textColor="@android:color/black"
+                    android:text="@string/saldo_atual"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:id="@+id/txtSaldoAtual"
                     android:layout_width="wrap_content"
@@ -58,6 +69,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lytMain"
                 android:layout_marginTop="15dp">
+
+
 
                 <TextView
                     android:id="@+id/txtSaldoInicial"

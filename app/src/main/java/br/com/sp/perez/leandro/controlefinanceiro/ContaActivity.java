@@ -2,6 +2,7 @@ package br.com.sp.perez.leandro.controlefinanceiro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,8 +38,6 @@ public class ContaActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
                 salvarAtualizar();
             }
@@ -77,23 +76,46 @@ public class ContaActivity extends AppCompatActivity {
         String saldoInicial = ((EditText) findViewById(R.id.editTextSaldoInicial)).getText().toString();
         String saldoAtual = ((EditText) findViewById(R.id.editTextSaldoAtual)).getText().toString();
 
-        if(conta == null)
-            conta = new Conta();
+        //Se os campos não estiverem preenchidos
+        if (descricao == null ||  descricao.equals("")
+                || saldoInicial == null || saldoInicial.equals("")
+                || saldoAtual == null || saldoAtual.equals("")) {
 
-        conta.setDescricao(descricao);
-        conta.setSaldo_inicial(Double.parseDouble(saldoInicial));
-        conta.setSaldo_atual(Double.parseDouble(saldoAtual));
+            showSnackBar("Por favor preencher todos os campos");
+
+        }else {  //Se os campos estiverem preenchidos salva/atualiza
+
+            if (conta == null)
+                conta = new Conta();
+
+            conta.setDescricao(descricao);
+            conta.setSaldo_inicial(Double.parseDouble(saldoInicial));
+            conta.setSaldo_atual(Double.parseDouble(saldoAtual));
 
 
-        //DAO
-        ContaRepository contaRepository = new ContaRepository(this);
-        contaRepository.salvarAtualizarConta(conta);
+            //DAO
+            ContaRepository contaRepository = new ContaRepository(this);
+            contaRepository.salvarAtualizarConta(conta);
 
-        //Intent de resultado
-        Intent resultIntent = new Intent();
-        setResult(RESULT_OK, resultIntent);
-        finish();
+            //Intent de resultado
+            Intent resultIntent = new Intent();
+            setResult(RESULT_OK, resultIntent);
+            finish();
 
+        }
+
+
+
+    }
+
+
+
+
+    private void showSnackBar(String msg) {
+        CoordinatorLayout coordinatorlayout= (CoordinatorLayout)findViewById(R.id.coordlayout);
+        Snackbar.make(coordinatorlayout, msg,
+                Snackbar.LENGTH_LONG)
+                .show();
     }
 
 }
