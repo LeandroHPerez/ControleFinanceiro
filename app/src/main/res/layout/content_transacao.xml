@@ -140,8 +140,7 @@
                     android:id="@+id/headerRepeticaoTransacao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/natureza_da_operacao"
-                />
+                    android:text="@string/repeticao" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
