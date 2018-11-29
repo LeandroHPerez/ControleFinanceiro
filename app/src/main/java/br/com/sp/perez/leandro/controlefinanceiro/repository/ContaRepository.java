@@ -13,6 +13,15 @@ import java.util.List;
 import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
 import br.com.sp.perez.leandro.controlefinanceiro.util.Constantes;
 
+
+/* SCRIPT CRIAÇÃO DA TABELA
+CREATE TABLE [TB_CONTAS](
+  [ID] INTEGER PRIMARY KEY AUTOINCREMENT,
+  [DESCRICAO] TEXT(30) NOT NULL,
+  [SALDO_INICIAL] DOUBLE NOT NULL DEFAULT 0,
+  [SALDO_ATUAL] DOUBLE NOT NULL DEFAULT 0);
+ */
+
 public class ContaRepository extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = Constantes.BD_NOME;

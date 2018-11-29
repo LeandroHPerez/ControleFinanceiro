@@ -7,9 +7,9 @@ public class Transacao implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long id;
     private String descricao;
-    private String tipo_transacao;
-    private Long id_conta;
-    private String natureza_transacao;
+    private String tipoTransacao;
+    private Long idConta;
+    private String naturezaTransacao;
     private Double valor;
     private Boolean isUnica;
     private String periodicidade;
@@ -37,28 +37,28 @@ public class Transacao implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getTipo_transacao() {
-        return tipo_transacao;
+    public String getTipoTransacao() {
+        return tipoTransacao;
     }
 
-    public void setTipo_transacao(String tipo_transacao) {
-        this.tipo_transacao = tipo_transacao;
+    public void setTipoTransacao(String tipoTransacao) {
+        this.tipoTransacao = tipoTransacao;
     }
 
-    public Long getId_conta() {
-        return id_conta;
+    public Long getIdConta() {
+        return idConta;
     }
 
-    public void setId_conta(Long id_conta) {
-        this.id_conta = id_conta;
+    public void setIdConta(Long idConta) {
+        this.idConta = idConta;
     }
 
-    public String getNatureza_transacao() {
-        return natureza_transacao;
+    public String getNaturezaTransacao() {
+        return naturezaTransacao;
     }
 
-    public void setNatureza_transacao(String natureza_transacao) {
-        this.natureza_transacao = natureza_transacao;
+    public void setNaturezaTransacao(String naturezaTransacao) {
+        this.naturezaTransacao = naturezaTransacao;
     }
 
     public Double getValor() {
@@ -106,9 +106,9 @@ public class Transacao implements Serializable {
         return "Transacao{" +
                 "id='" + id + '\'' +
                 ", descricao='" + descricao  + '\'' +
-                ", tipo_transacao='" + tipo_transacao + '\'' +
-                ", id_conta=" + natureza_transacao +
-                ", natureza_transacao=" + natureza_transacao +
+                ", tipoTransacao='" + tipoTransacao + '\'' +
+                ", idConta=" + naturezaTransacao +
+                ", naturezaTransacao=" + naturezaTransacao +
                 ", valor=" + valor +
                 ", isUnica=" + isUnica +
                 ", periodicidade=" + periodicidade +

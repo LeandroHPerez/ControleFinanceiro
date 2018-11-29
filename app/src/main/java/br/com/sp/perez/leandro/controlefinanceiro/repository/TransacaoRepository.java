@@ -9,8 +9,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
+import br.com.sp.perez.leandro.controlefinanceiro.model.Transacao;
 import br.com.sp.perez.leandro.controlefinanceiro.util.Constantes;
+
+
+/* SCRIPT CRIAÇÃO DA TABELA
+CREATE TABLE [TB_TRANSACOES](
+        [ID] INTEGER PRIMARY KEY AUTOINCREMENT,
+        [DESCRICAO] TEXT(30) NOT NULL,
+        [TIPO_TRANSACAO] INTEGER,
+        [ID_CONTA] INTEGER REFERENCES [TB_CONTAS]([ID]),
+        [NATUREZA_TRANSACAO] TEXT(1),
+        [VALOR] DOUBLE NOT NULL DEFAULT 0,
+        [IS_UNICA] BOOLEAN,
+        [PERIODICIDADE] TEXT DEFAULT NULL,
+        [QTD_REPETICOES] INTEGER DEFAULT NULL,
+        [DATA_LANCAMENTO] TEXT);
+ */
+
 
 public class TransacaoRepository extends SQLiteOpenHelper {
 
@@ -92,22 +108,28 @@ public class TransacaoRepository extends SQLiteOpenHelper {
 
     //OPERAÇÕES
 
-    private ContentValues getContentValuesConta(Conta conta) {
+    private ContentValues getContentValuesTransacao(Transacao transacao) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(KEY_DESCRICAO, conta.getDescricao());
-        //contentValues.put(KEY_SALDO_INICIAL, conta.getSaldo_inicial());
-        //contentValues.put(KEY_SALDO_ATUAL, conta.getSaldo_atual());
+        contentValues.put(KEY_DESCRICAO, transacao.getDescricao());
+        contentValues.put(KEY_TIPO_TRANSACAO, transacao.getTipoTransacao());
+        contentValues.put(KEY_ID_CONTA, transacao.getIdConta()); //FK
+        contentValues.put(KEY_NATUREZA_TRANSACAO, transacao.getNaturezaTransacao());
+        contentValues.put(KEY_VALOR, transacao.getValor());
+        contentValues.put(KEY_IS_UNICA, transacao.getUnica());
+        contentValues.put(KEY_PERIODICIDADE, transacao.getPeriodicidade());
+        contentValues.put(KEY_QTD_REPETICOES, transacao.getQtdRepeticoes());
+        contentValues.put(KEY_DATA_LANCAMENTO, transacao.getDataLancamento());
 
         return contentValues;
     }
 
-    public void salvarAtualizarConta(Conta conta){
+    public void salvarAtualizarConta(Transacao transacao){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues contentValues = getContentValuesConta(conta);
+        ContentValues contentValues = getContentValuesTransacao(transacao);
 
-        if(conta.getId() != null) //Atualiza
-           db.update(KEY_DATABASE_TABLE, contentValues, KEY_ID + " = ?", new String[]{String.valueOf(conta.getId())});
+        if(transacao.getId() != null) //Atualiza
+           db.update(KEY_DATABASE_TABLE, contentValues, KEY_ID + " = ?", new String[]{String.valueOf(transacao.getId())});
         else                  //Salva
             db.insert(KEY_DATABASE_TABLE, null, contentValues);
 
@@ -115,71 +137,77 @@ public class TransacaoRepository extends SQLiteOpenHelper {
     }
 
 
-    public void removerConta(Conta conta) {
+    public void removerTransacao(Transacao transacao) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        conta.getId();
+        transacao.getId();
 
-        db.delete(KEY_DATABASE_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(conta.getId())});
+        db.delete(KEY_DATABASE_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(transacao.getId())});
 
 
         db.delete(KEY_DATABASE_TABLE, KEY_ID + "="
-                + conta.getId(), null);
+                + transacao.getId(), null);
 
         db.close();
     }
 
 
-    private void setContaFromCursor(Cursor cursor, Conta conta) {
-        conta.setId             (cursor.getLong(cursor.getColumnIndex(KEY_ID)));
-        conta.setDescricao      (cursor.getString(cursor.getColumnIndex(KEY_DESCRICAO)));
-        //conta.setSaldo_inicial  (cursor.getDouble(cursor.getColumnIndex(KEY_SALDO_INICIAL)));
-        //conta.setSaldo_atual    (cursor.getDouble(cursor.getColumnIndex(KEY_SALDO_ATUAL)));
+    private void setTransacaoFromCursor(Cursor cursor, Transacao transacao) {
+        transacao.setId                 (cursor.getLong(cursor.getColumnIndex(KEY_ID)));
+        transacao.setDescricao          (cursor.getString(cursor.getColumnIndex(KEY_DESCRICAO)));
+        transacao.setTipoTransacao      (cursor.getString(cursor.getColumnIndex(KEY_TIPO_TRANSACAO)));
+        transacao.setIdConta            (cursor.getLong(cursor.getColumnIndex(KEY_ID_CONTA)));
+        transacao.setNaturezaTransacao  (cursor.getString(cursor.getColumnIndex(KEY_NATUREZA_TRANSACAO)));
+        transacao.setValor              (cursor.getDouble(cursor.getColumnIndex(KEY_VALOR)));
+        transacao.setUnica              (cursor.getInt(cursor.getColumnIndex(KEY_IS_UNICA)) == 1); //tratamento para boolean
+        transacao.setPeriodicidade      (cursor.getString(cursor.getColumnIndex(KEY_PERIODICIDADE)));
+        transacao.setQtdRepeticoes      (cursor.getLong(cursor.getColumnIndex(KEY_QTD_REPETICOES)));
+        transacao.setDataLancamento     (cursor.getString(cursor.getColumnIndex(KEY_DATA_LANCAMENTO)));
     }
 
 
-    public List<Conta> listarContas() {
+    public List<Transacao> listarTransacoes() {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        List<Conta> contas =  new ArrayList<Conta>();
+        List<Transacao> transacoes =  new ArrayList<Transacao>();
 
         Cursor cursor = db.query(KEY_DATABASE_TABLE, null, null, null, null, null, KEY_DESCRICAO);
 
         while (cursor.moveToNext()){
-            Conta conta = new Conta();
+            Transacao transacao = new Transacao();
 
-            setContaFromCursor(cursor, conta);
+            setTransacaoFromCursor(cursor, transacao);
 
-            contas.add(conta);
+            transacoes.add(transacao);
         }
 
         cursor.close();
 
         db.close();
 
-        return contas;
+        return transacoes;
 
     }
 
 
-    public Conta consultarContaPorID(int idConta){
+    public Transacao consultarTransacaoPorID(int idTransacao){
 
-        Conta conta = new Conta();
+        Transacao transacao = new Transacao();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(KEY_DATABASE_TABLE, null, KEY_ID + " ?", new String[]{String.valueOf(idConta)}, null, null, KEY_DESCRICAO);
+        Cursor cursor = db.query(KEY_DATABASE_TABLE, null, KEY_ID + " ?", new String[]{String.valueOf(idTransacao)}, null, null, KEY_DESCRICAO);
 
         if (cursor.moveToNext()){
-            setContaFromCursor(cursor, conta);
+            setTransacaoFromCursor(cursor, transacao);
         }
 
         cursor.close();
 
         db.close();
 
-        return conta;
+        return transacao;
     }
 
 

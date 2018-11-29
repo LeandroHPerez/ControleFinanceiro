@@ -18,7 +18,7 @@
     <string name="title_activity_transacao">TransacaoActivity</string>
 
     <string name="titulo_transacao">Transação</string>
-    <string name="tipo_transacao">Tipo de transação:</string>
+    <string name="tipoTransacao">Tipo de transação:</string>
 
     <string name="conta_da_transacao">Conta da transação:</string>
     <string name="credito">Crédito</string>
