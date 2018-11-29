@@ -7,7 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import br.com.sp.perez.leandro.controlefinanceiro.repository.TransacaoRepository;
+
 public class TransacaoActivity extends AppCompatActivity {
+
+    private TransacaoRepository transacaoRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,12 @@ public class TransacaoActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+
+        //DAO
+        transacaoRepository = new TransacaoRepository(this);
+
     }
 
 }

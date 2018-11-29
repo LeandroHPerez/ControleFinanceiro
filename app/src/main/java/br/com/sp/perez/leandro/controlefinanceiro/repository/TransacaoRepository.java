@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +12,29 @@ import java.util.List;
 import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
 import br.com.sp.perez.leandro.controlefinanceiro.util.Constantes;
 
-public class ContaRepository extends SQLiteOpenHelper {
+public class TransacaoRepository extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = Constantes.BD_NOME;
     private static final int DATABASE_VERSION = Constantes.BD_VERSAO;
     //Colunas e tabela
-    static final String KEY_DATABASE_TABLE = "TB_CONTAS";
+    static final String KEY_DATABASE_TABLE = "TB_TRANSACOES";
     static final String KEY_ID = "ID";
     static final String KEY_DESCRICAO = "DESCRICAO";
-    static final String KEY_SALDO_INICIAL = "SALDO_INICIAL";
-    static final String KEY_SALDO_ATUAL = "SALDO_ATUAL";
+    static final String KEY_TIPO_TRANSACAO = "TIPO_TRANSACAO";
+    static final String KEY_ID_CONTA = "ID_CONTA";
+    static final String KEY_NATUREZA_TRANSACAO = "NATUREZA_TRANSACAO";
+    static final String KEY_VALOR = "VALOR";
+    static final String KEY_IS_UNICA = "IS_UNICA";
+    static final String KEY_PERIODICIDADE = "PERIODICIDADE";
+    static final String KEY_QTD_REPETICOES = "QTD_REPETICOES";
+    static final String KEY_DATA_LANCAMENTO = "DATA_LANCAMENTO";
 
 
-    public ContaRepository(Context context) {
+
+
+
+
+    public TransacaoRepository(Context context) {
         super(context, Constantes.BD_NOME, null, Constantes.BD_VERSAO);
     }
 
@@ -36,6 +45,9 @@ public class ContaRepository extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(getDATABASE_CREATE_V1()); //Cria o banco
 
     }
+
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
@@ -58,12 +70,19 @@ public class ContaRepository extends SQLiteOpenHelper {
     //Banco v1
     public static final String getDATABASE_CREATE_V1() {
 
+
         StringBuilder query = new StringBuilder();
             query.append("CREATE TABLE IF NOT EXISTS " + KEY_DATABASE_TABLE + "( ");
             query.append( KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
             query.append( KEY_DESCRICAO + " TEXT(30) NOT NULL,");
-            query.append( KEY_SALDO_INICIAL + " DOUBLE NOT NULL DEFAULT 0,");
-            query.append( KEY_SALDO_ATUAL + " DOUBLE NOT NULL DEFAULT 0);");
+            query.append( KEY_TIPO_TRANSACAO + " INTEGER,");
+            query.append( KEY_ID_CONTA + " INTEGER REFERENCES TB_CONTAS(ID),"); //FK
+            query.append( KEY_NATUREZA_TRANSACAO + " TEXT(1),");
+            query.append( KEY_VALOR + " DOUBLE NOT NULL DEFAULT 0,");
+            query.append( KEY_IS_UNICA+ " BOOLEAN,");
+            query.append( KEY_PERIODICIDADE + " TEXT,");
+            query.append( KEY_QTD_REPETICOES + " INTEGER,");
+            query.append( KEY_DATA_LANCAMENTO + " TEXT);");
 
         return query.toString();
     }
@@ -76,8 +95,8 @@ public class ContaRepository extends SQLiteOpenHelper {
     private ContentValues getContentValuesConta(Conta conta) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_DESCRICAO, conta.getDescricao());
-        contentValues.put(KEY_SALDO_INICIAL, conta.getSaldo_inicial());
-        contentValues.put(KEY_SALDO_ATUAL, conta.getSaldo_atual());
+        //contentValues.put(KEY_SALDO_INICIAL, conta.getSaldo_inicial());
+        //contentValues.put(KEY_SALDO_ATUAL, conta.getSaldo_atual());
 
         return contentValues;
     }
@@ -114,8 +133,8 @@ public class ContaRepository extends SQLiteOpenHelper {
     private void setContaFromCursor(Cursor cursor, Conta conta) {
         conta.setId             (cursor.getLong(cursor.getColumnIndex(KEY_ID)));
         conta.setDescricao      (cursor.getString(cursor.getColumnIndex(KEY_DESCRICAO)));
-        conta.setSaldo_inicial  (cursor.getDouble(cursor.getColumnIndex(KEY_SALDO_INICIAL)));
-        conta.setSaldo_atual    (cursor.getDouble(cursor.getColumnIndex(KEY_SALDO_ATUAL)));
+        //conta.setSaldo_inicial  (cursor.getDouble(cursor.getColumnIndex(KEY_SALDO_INICIAL)));
+        //conta.setSaldo_atual    (cursor.getDouble(cursor.getColumnIndex(KEY_SALDO_ATUAL)));
     }
 
 

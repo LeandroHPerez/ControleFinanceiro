@@ -34,12 +34,15 @@ import java.util.List;
 import br.com.sp.perez.leandro.controlefinanceiro.adapter.ContasAdapter;
 import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
 import br.com.sp.perez.leandro.controlefinanceiro.repository.ContaRepository;
+import br.com.sp.perez.leandro.controlefinanceiro.repository.MotherRepository;
 
 public class MainActivity extends AppCompatActivity {
 
     public static RecyclerView recyclerView;
     private ContasAdapter contasAdapter;
     private List<Conta> contas = new ArrayList<>();
+
+    private MotherRepository motherRepository;
     private ContaRepository contaRepository;
 
 
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         txtEmpty= (TextView) findViewById(R.id.empty_view);
 
         //DAO
+        motherRepository = new MotherRepository(this);
         contaRepository = new ContaRepository(this);
 
         Conta c = new Conta();
