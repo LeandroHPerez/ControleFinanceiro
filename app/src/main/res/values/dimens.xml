@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="standard_10">10dp</dimen>
     <dimen name="standard_21">21dp</dimen>
     <dimen name="standard_45">45dp</dimen>
     <dimen name="standard_55">55dp</dimen>

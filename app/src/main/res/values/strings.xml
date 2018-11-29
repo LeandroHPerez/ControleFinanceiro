@@ -16,4 +16,20 @@
 
     <string name="nova_transacao">Nova transação</string>
     <string name="title_activity_transacao">TransacaoActivity</string>
+
+    <string name="titulo_transacao">Transação</string>
+    <string name="tipo_transacao">Tipo de transação:</string>
+
+    <string name="conta_da_transacao">Conta da transação:</string>
+    <string name="credito">Crédito</string>
+    <string name="debito">Débito</string>
+    <string name="natureza_da_operacao">Natureza da operação:</string>
+
+    <string name="valor">Valor:</string>
+    <string name="unica">Única</string>
+    <string name="repete">Repete</string>
+
+
+
+
 </resources>
