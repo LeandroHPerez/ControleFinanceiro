@@ -22,7 +22,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ImageView
-                android:id="@+id/imgConta"
+                android:id="@+id/imgTransacao"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_alignParentLeft="true"
