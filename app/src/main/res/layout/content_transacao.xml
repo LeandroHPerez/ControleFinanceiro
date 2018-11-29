@@ -8,157 +8,236 @@
     tools:context=".TransacaoActivity"
     tools:showIn="@layout/activity_transacao">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+     >
 
-        <ImageView
-            android:id="@+id/imgConta"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/receipt"/>
-
-        <TextView
-            android:id="@+id/txtTituloTransacao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/titulo_transacao"
-            android:textSize="18sp"
-            android:layout_marginBottom="@dimen/standard_10"
-            android:textStyle="bold"></TextView>
-
-        <TextView
-            android:id="@+id/txtDescricao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/descricao">
-        </TextView>
-        <EditText
-            android:id="@+id/editTextDescricao"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </EditText>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-
-        <TextView
-            android:id="@+id/txtTipoTransacao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tipo_transacao">
-        </TextView>
-        <Spinner
-            android:id="@+id/spinnerTipoTransacao"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-        />
-
-
-        <TextView
-            android:id="@+id/txtContaDaTransacao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/conta_da_transacao">
-        </TextView>
-        <Spinner
-            android:id="@+id/spinnerContaDaTransacao"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-        />
-
-
-        <RadioGroup
-            android:id="@+id/rdGrpNaturezaTransacao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
+            <ImageView
+                android:id="@+id/imgConta"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/receipt"/>
 
             <TextView
-                android:id="@+id/headerNaturezaTransacao"
+                android:id="@+id/txtTituloTransacao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/natureza_da_operacao"
-            />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rdBtnDedito"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/debito"/>
-
-                <RadioButton
-                    android:id="@+id/rdBtnCredito"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/credito"/>
-
-
-            </LinearLayout>
-        </RadioGroup>
-
-
-
-        <TextView
-            android:id="@+id/txtSvalorTransacao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/valor">
-        </TextView>
-
-        <EditText
-            android:id="@+id/editTextValorTransacao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"></EditText>
-
-
-        <RadioGroup
-            android:id="@+id/rdGrpRepeticaoTransacao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
+                android:text="@string/titulo_transacao"
+                android:textSize="18sp"
+                android:layout_marginBottom="@dimen/standard_10"
+                android:textStyle="bold"></TextView>
 
             <TextView
-                android:id="@+id/headerRepeticaoTransacao"
+                android:id="@+id/txtDescricao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/natureza_da_operacao"
+                android:text="@string/descricao">
+            </TextView>
+            <EditText
+                android:id="@+id/editTextDescricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </EditText>
+
+
+
+            <TextView
+                android:id="@+id/txtTipoTransacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tipo_transacao">
+            </TextView>
+            <Spinner
+                android:id="@+id/spinnerTipoTransacao"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
             />
 
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/txtContaDaTransacao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="@string/conta_da_transacao">
+            </TextView>
+            <Spinner
+                android:id="@+id/spinnerContaDaTransacao"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+            />
 
-                <RadioButton
-                    android:id="@+id/rdBtnUnicaTransacao"
-                    android:layout_width="match_parent"
+
+            <RadioGroup
+                android:id="@+id/rdGrpNaturezaTransacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/headerNaturezaTransacao"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/unica"/>
-                <RadioButton
-                    android:id="@+id/rdBtnRepeticaoTransacao"
-                    android:layout_width="match_parent"
+                    android:text="@string/natureza_da_operacao"
+                />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/repete"/>
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rdBtnDedito"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/debito"/>
+
+                    <RadioButton
+                        android:id="@+id/rdBtnCredito"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/credito"/>
+
+
+                </LinearLayout>
+            </RadioGroup>
+
+
+
+            <TextView
+                android:id="@+id/txtSvalorTransacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor">
+            </TextView>
+
+            <EditText
+                android:id="@+id/editTextValorTransacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"></EditText>
+
+
+            <RadioGroup
+                android:id="@+id/rdGrpRepeticaoTransacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/headerRepeticaoTransacao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/natureza_da_operacao"
+                />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rdBtnUnicaTransacao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/unica"/>
+                    <RadioButton
+                        android:id="@+id/rdBtnRepeticaoTransacao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/repete"/>
+
+                </LinearLayout>
+            </RadioGroup>
+
+
+
+            <LinearLayout
+                android:id="@+id/linearAgrupadorRepeticaoTransacao"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible"
+             >
+
+                <TextView
+                    android:id="@+id/txtPeriodicidade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/periodicidade">
+                </TextView>
+                <Spinner
+                    android:id="@+id/spinnerPeriodicidade"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                 />
+
+
+                <TextView
+                    android:id="@+id/txtQtdDeRepeticao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quantidade_de_repeticoes">
+                </TextView>
+                <EditText
+                    android:id="@+id/editTextQtdDeRepeticao"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:inputType="number"
+                />
+
+
+                <LinearLayout
+                    android:id="@+id/linearAgrupadorDataTransacao"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                 >
+
+                    <TextView
+                        android:id="@+id/txtData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/data_inicial">
+                    </TextView>
+                    <EditText
+                        android:id="@+id/editDataTransacao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="01/01/2018"
+                        android:enabled="false">
+                    </EditText>
+                    <Button
+                        android:id="@+id/btnEscolherData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/alterar_data">
+                    </Button>
+                </LinearLayout>
 
             </LinearLayout>
-        </RadioGroup>
 
 
 
-    </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
 

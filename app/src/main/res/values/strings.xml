@@ -28,6 +28,13 @@
     <string name="valor">Valor:</string>
     <string name="unica">Única</string>
     <string name="repete">Repete</string>
+    <string name="data">Data:</string>
+    <string name="data_inicial">Data inicial:</string>
+    <string name="alterar_data">Alterar data</string>
+    <string name="periodicidade">Periodicidade:</string>
+    <string name="quantidade_de_repeticoes">Quantidade de repetições:</string>
+
+
 
 
 
