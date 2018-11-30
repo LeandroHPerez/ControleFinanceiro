@@ -60,6 +60,8 @@ public class ContaActivity extends AppCompatActivity {
             edtTxtSaldoInicial.setText(conta.getSaldo_inicial().toString());
             edtTxtSaldoAtual.setText(conta.getSaldo_atual().toString());
 
+
+
         }
 
     }

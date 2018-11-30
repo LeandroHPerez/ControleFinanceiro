@@ -10,9 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
 import br.com.sp.perez.leandro.controlefinanceiro.model.TipoTransacao;
@@ -25,8 +28,19 @@ public class TransacaoActivity extends AppCompatActivity {
     private Transacao transacao;
     private TransacaoRepository transacaoRepository;
 
+    private ContaRepository contaRepository;
+    private List<Conta> contas = new ArrayList<>();
+
+
+    private EditText edtTxtDescricao;
 
     private Spinner spnTipoTransacao;
+    private Spinner spnContaDaTransacao;
+
+    private RadioGroup rdGrpNaturezaTransacao;
+
+    RadioButton rdBtnDedito;
+    RadioButton rdBtnCredito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +48,9 @@ public class TransacaoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transacao);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        obterReferenciasComponentesUI();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,14 +64,71 @@ public class TransacaoActivity extends AppCompatActivity {
         });
 
 
-        spnTipoTransacao = (Spinner) findViewById(R.id.spinnerTipoTransacao);
+
 
 
         initTipoTransacao();
+        initContaDaTransacao();
 
         //DAO
         //transacaoRepository = new TransacaoRepository(this);
 
+    }
+
+
+    private void obterReferenciasComponentesUI(){
+
+        edtTxtDescricao = ((EditText) findViewById(R.id.editTextDescricao));
+        spnTipoTransacao = (Spinner) findViewById(R.id.spinnerTipoTransacao);
+        spnContaDaTransacao = (Spinner) findViewById(R.id.spinnerContaDaTransacao);
+        rdGrpNaturezaTransacao = (RadioGroup) findViewById(R.id.rdGrpNaturezaTransacao);
+        //rdBtnDedito = (RadioButton) rdGrpNaturezaTransacao.findViewById(R.id.rdBtnDedito);
+        //rdBtnCredito = (RadioButton) rdGrpNaturezaTransacao.findViewById(R.id.rdBtnCredito);
+
+        rdBtnDedito = (RadioButton) findViewById(R.id.rdBtnDedito);
+        rdBtnCredito = (RadioButton) findViewById(R.id.rdBtnCredito);
+
+
+
+        rdGrpNaturezaTransacao.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rdBtnDedito) {
+                    rdBtnCredito.setChecked(false);
+                    rdBtnDedito.setChecked(false);
+
+                }
+
+                if (checkedId == R.id.rdBtnCredito) {
+                    rdBtnDedito.setChecked(false);
+                    rdBtnCredito.setChecked(false);
+
+                }
+
+
+
+            }
+        });
+
+
+    }
+
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.rdBtnCredito:
+                if (checked)
+                    // Pirates are the best
+                    break;
+            case R.id.rdBtnDedito:
+                if (checked)
+                    // Ninjas rule
+                    break;
+        }
     }
 
 
@@ -71,6 +145,34 @@ public class TransacaoActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spnTipoTransacao.setAdapter(adapter);
+    }
+
+
+    private void initContaDaTransacao() {
+
+        contaRepository = new ContaRepository(this);
+        contas.clear();
+        contas.addAll(contaRepository.listarContas());
+
+
+        ArrayList<String> descricaoContas = new ArrayList<>();
+
+        for (Conta conta : contas) {
+            descricaoContas.add(conta.getDescricao());
+        }
+
+
+        ArrayAdapter adapter = new ArrayAdapter(TransacaoActivity.this, android.R.layout.simple_spinner_item, descricaoContas);
+        //Muda o estilo exibido para a seleção
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spnContaDaTransacao.setAdapter(adapter);
+    }
+
+
+
+    private void configurarUI_NaturezaOperacao(){
+
     }
 
 
