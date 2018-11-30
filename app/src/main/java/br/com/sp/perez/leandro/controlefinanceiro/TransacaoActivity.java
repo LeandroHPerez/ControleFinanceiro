@@ -6,10 +6,13 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -39,8 +42,19 @@ public class TransacaoActivity extends AppCompatActivity {
 
     private RadioGroup rdGrpNaturezaTransacao;
 
-    RadioButton rdBtnDedito;
-    RadioButton rdBtnCredito;
+
+    private EditText edtTxtValor;
+    private RadioGroup rdGrpRepeticaoTransacao;
+
+    private LinearLayout linearAgrupadorRepeticaoTransacao;
+    private Spinner spinnerPeriodicidade;
+    private EditText editTextQtdDeRepeticao;
+    private EditText editTextDataTransacao;
+    private Button btnEscolherData;
+
+
+
+    List<String> periodicidade = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +65,8 @@ public class TransacaoActivity extends AppCompatActivity {
 
 
         obterReferenciasComponentesUI();
+        ajustarListenerRdGrpRepeticaoTransacao(rdGrpRepeticaoTransacao);
+        ajustarListenerRdGrpNaturezaTransacao(rdGrpNaturezaTransacao);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +85,7 @@ public class TransacaoActivity extends AppCompatActivity {
 
         initTipoTransacao();
         initContaDaTransacao();
+        configurarSpinnerPeriodicidade(spinnerPeriodicidade);
 
         //DAO
         //transacaoRepository = new TransacaoRepository(this);
@@ -82,26 +99,27 @@ public class TransacaoActivity extends AppCompatActivity {
         spnTipoTransacao = (Spinner) findViewById(R.id.spinnerTipoTransacao);
         spnContaDaTransacao = (Spinner) findViewById(R.id.spinnerContaDaTransacao);
         rdGrpNaturezaTransacao = (RadioGroup) findViewById(R.id.rdGrpNaturezaTransacao);
-        //rdBtnDedito = (RadioButton) rdGrpNaturezaTransacao.findViewById(R.id.rdBtnDedito);
-        //rdBtnCredito = (RadioButton) rdGrpNaturezaTransacao.findViewById(R.id.rdBtnCredito);
+        edtTxtValor = (EditText) findViewById(R.id.editTextValorTransacao);
+        rdGrpRepeticaoTransacao = (RadioGroup) findViewById(R.id.rdGrpRepeticaoTransacao);
+        linearAgrupadorRepeticaoTransacao = (LinearLayout) findViewById(R.id.linearAgrupadorRepeticaoTransacao);
+        spinnerPeriodicidade = (Spinner) findViewById(R.id.spinnerPeriodicidade);
+        editTextQtdDeRepeticao = (EditText) findViewById(R.id.editTextQtdDeRepeticao);
+        editTextDataTransacao = (EditText) findViewById(R.id.editTextDataTransacao);
+        btnEscolherData = (Button) findViewById(R.id.btnEscolherData);
+    }
 
-        rdBtnDedito = (RadioButton) findViewById(R.id.rdBtnDedito);
-        rdBtnCredito = (RadioButton) findViewById(R.id.rdBtnCredito);
-
-
-
-        rdGrpNaturezaTransacao.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+    private void ajustarListenerRdGrpNaturezaTransacao(RadioGroup radioGrp){
+        radioGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.rdBtnDedito) {
-                    rdBtnCredito.setChecked(false);
-                    rdBtnDedito.setChecked(false);
+
+                    Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
                 }
 
                 if (checkedId == R.id.rdBtnCredito) {
-                    rdBtnDedito.setChecked(false);
-                    rdBtnCredito.setChecked(false);
+                    Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
                 }
 
@@ -110,26 +128,32 @@ public class TransacaoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void ajustarListenerRdGrpRepeticaoTransacao(RadioGroup radioGrp){
+        radioGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rdBtnUnicaTransacao) {
+
+                    Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                }
+
+                if (checkedId == R.id.rdBtnRepeticaoTransacao) {
+                    Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                }
+
+
+
+            }
+        });
 
     }
 
 
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
 
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.rdBtnCredito:
-                if (checked)
-                    // Pirates are the best
-                    break;
-            case R.id.rdBtnDedito:
-                if (checked)
-                    // Ninjas rule
-                    break;
-        }
-    }
 
 
     private void initTipoTransacao() {
@@ -167,6 +191,18 @@ public class TransacaoActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spnContaDaTransacao.setAdapter(adapter);
+    }
+
+
+
+    private void configurarSpinnerPeriodicidade(Spinner spinnerPeriodicidade){
+
+        periodicidade.add("Diária");
+        periodicidade.add("Semanal");
+        periodicidade.add("Mensal");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, periodicidade);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPeriodicidade.setAdapter(dataAdapter);
     }
 
 

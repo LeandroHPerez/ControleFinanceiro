@@ -79,45 +79,41 @@
             />
 
 
-            <RadioGroup
-                android:id="@+id/rdGrpNaturezaTransacao"
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/headerNaturezaTransacao"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible">
+                android:text="@string/natureza_da_operacao"
+            />
 
-                <TextView
-                    android:id="@+id/headerNaturezaTransacao"
+                <RadioGroup
+                    android:id="@+id/rdGrpNaturezaTransacao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/natureza_da_operacao"
-                />
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/rdBtnDedito"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/debito"/>
 
-                    <RadioButton
-                        android:id="@+id/rdBtnDedito"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/debito"/>
+                        <RadioButton
+                            android:id="@+id/rdBtnCredito"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/credito"/>
 
-                    <RadioButton
-                        android:id="@+id/rdBtnCredito"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/credito"/>
+                </RadioGroup>
 
-
-                </LinearLayout>
-            </RadioGroup>
 
 
 
             <TextView
-                android:id="@+id/txtSvalorTransacao"
+                android:id="@+id/txtValorTransacao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valor">
@@ -130,37 +126,38 @@
                 android:inputType="numberDecimal"></EditText>
 
 
+
+            <TextView
+                android:id="@+id/headerRepeticaoTransacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repeticao"
+                />
+
             <RadioGroup
                 android:id="@+id/rdGrpRepeticaoTransacao"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/headerRepeticaoTransacao"
+                <RadioButton
+                    android:id="@+id/rdBtnUnicaTransacao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/repeticao" />
+                    android:checked="true"
+                    android:text="@string/unica"/>
 
-                <LinearLayout
+                <RadioButton
+                    android:id="@+id/rdBtnRepeticaoTransacao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="@string/repete"/>
 
-                    <RadioButton
-                        android:id="@+id/rdBtnUnicaTransacao"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/unica"/>
-                    <RadioButton
-                        android:id="@+id/rdBtnRepeticaoTransacao"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/repete"/>
-
-                </LinearLayout>
             </RadioGroup>
+
+
+
 
 
 
@@ -215,7 +212,7 @@
                         android:text="@string/data_inicial">
                     </TextView>
                     <EditText
-                        android:id="@+id/editDataTransacao"
+                        android:id="@+id/editTextDataTransacao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="01/01/2018"
