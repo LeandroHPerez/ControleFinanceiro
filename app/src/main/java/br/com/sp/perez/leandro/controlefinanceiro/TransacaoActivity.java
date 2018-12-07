@@ -1,23 +1,29 @@
 package br.com.sp.perez.leandro.controlefinanceiro;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
@@ -25,8 +31,9 @@ import br.com.sp.perez.leandro.controlefinanceiro.model.TipoTransacao;
 import br.com.sp.perez.leandro.controlefinanceiro.model.Transacao;
 import br.com.sp.perez.leandro.controlefinanceiro.repository.ContaRepository;
 import br.com.sp.perez.leandro.controlefinanceiro.repository.TransacaoRepository;
+import br.com.sp.perez.leandro.controlefinanceiro.util.DatePickerFragment;
 
-public class TransacaoActivity extends AppCompatActivity {
+public class TransacaoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener  {
 
     private Transacao transacao;
     private TransacaoRepository transacaoRepository;
@@ -41,10 +48,12 @@ public class TransacaoActivity extends AppCompatActivity {
     private Spinner spnContaDaTransacao;
 
     private RadioGroup rdGrpNaturezaTransacao;
+    private RadioButton rdBtnDedito;
 
 
     private EditText edtTxtValor;
     private RadioGroup rdGrpRepeticaoTransacao;
+    private RadioButton rdBtnUnicaTransacao;
 
     private LinearLayout linearAgrupadorRepeticaoTransacao;
     private Spinner spinnerPeriodicidade;
@@ -54,7 +63,7 @@ public class TransacaoActivity extends AppCompatActivity {
 
 
 
-    List<String> periodicidade = new ArrayList<String>();
+    List<String> listaPeriodicidade = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,35 @@ public class TransacaoActivity extends AppCompatActivity {
         ajustarListenerRdGrpRepeticaoTransacao(rdGrpRepeticaoTransacao);
         ajustarListenerRdGrpNaturezaTransacao(rdGrpNaturezaTransacao);
 
+
+
+
+
+
+
+        initTipoTransacao();
+        initContaDaTransacao();
+        configurarSpinnerPeriodicidade(spinnerPeriodicidade);
+
+        //DAO
+        //transacaoRepository = new TransacaoRepository(this);
+
+        configurarUI_NaturezaOperacao();
+
+        ajustarComponentesUItransacaoUnicaOuRepete();
+
+
+        Calendar calendar = Calendar.getInstance();
+        final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        editTextDataTransacao.setText(dateFormat.format(calendar.getTime()));
+
+
+        configurarBotaoEscolherData();
+
+
+
+
+        //Botão Salvar
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,13 +121,6 @@ public class TransacaoActivity extends AppCompatActivity {
 
 
 
-        initTipoTransacao();
-        initContaDaTransacao();
-        configurarSpinnerPeriodicidade(spinnerPeriodicidade);
-
-        //DAO
-        //transacaoRepository = new TransacaoRepository(this);
-
     }
 
 
@@ -99,8 +130,10 @@ public class TransacaoActivity extends AppCompatActivity {
         spnTipoTransacao = (Spinner) findViewById(R.id.spinnerTipoTransacao);
         spnContaDaTransacao = (Spinner) findViewById(R.id.spinnerContaDaTransacao);
         rdGrpNaturezaTransacao = (RadioGroup) findViewById(R.id.rdGrpNaturezaTransacao);
+        rdBtnDedito = (RadioButton) findViewById(R.id.rdBtnDedito);
         edtTxtValor = (EditText) findViewById(R.id.editTextValorTransacao);
         rdGrpRepeticaoTransacao = (RadioGroup) findViewById(R.id.rdGrpRepeticaoTransacao);
+        rdBtnUnicaTransacao = (RadioButton) findViewById(R.id.rdBtnUnicaTransacao);
         linearAgrupadorRepeticaoTransacao = (LinearLayout) findViewById(R.id.linearAgrupadorRepeticaoTransacao);
         spinnerPeriodicidade = (Spinner) findViewById(R.id.spinnerPeriodicidade);
         editTextQtdDeRepeticao = (EditText) findViewById(R.id.editTextQtdDeRepeticao);
@@ -114,12 +147,16 @@ public class TransacaoActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.rdBtnDedito) {
 
-                    Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    //Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    configurarUI_NaturezaOperacao();
+
+
 
                 }
 
                 if (checkedId == R.id.rdBtnCredito) {
-                    Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    //Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    configurarUI_NaturezaOperacao();
 
                 }
 
@@ -135,13 +172,16 @@ public class TransacaoActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.rdBtnUnicaTransacao) {
+                    //Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-                    Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    ajustarComponentesUItransacaoUnicaOuRepete();
 
                 }
 
                 if (checkedId == R.id.rdBtnRepeticaoTransacao) {
-                    Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    //Snackbar.make(group, "Clicou em " + checkedId, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                    ajustarComponentesUItransacaoUnicaOuRepete();
 
                 }
 
@@ -197,10 +237,10 @@ public class TransacaoActivity extends AppCompatActivity {
 
     private void configurarSpinnerPeriodicidade(Spinner spinnerPeriodicidade){
 
-        periodicidade.add("Diária");
-        periodicidade.add("Semanal");
-        periodicidade.add("Mensal");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, periodicidade);
+        listaPeriodicidade.add("Diária");
+        listaPeriodicidade.add("Semanal");
+        listaPeriodicidade.add("Mensal");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaPeriodicidade);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPeriodicidade.setAdapter(dataAdapter);
     }
@@ -208,6 +248,12 @@ public class TransacaoActivity extends AppCompatActivity {
 
 
     private void configurarUI_NaturezaOperacao(){
+        if (rdBtnDedito.isChecked()){ //Débito
+            edtTxtValor.setTextColor( getResources().getColor(R.color.vermelho));
+        }
+        else{  //Crédito
+            edtTxtValor.setTextColor( getResources().getColor(R.color.verde));
+        }
 
     }
 
@@ -215,43 +261,103 @@ public class TransacaoActivity extends AppCompatActivity {
 
 
     private void salvarAtualizar(){
-        String descricao = ((EditText) findViewById(R.id.editTextDescricao)).getText().toString();
-        String saldoInicial = ((EditText) findViewById(R.id.editTextSaldoInicial)).getText().toString();
-        String saldoAtual = ((EditText) findViewById(R.id.editTextSaldoAtual)).getText().toString();
+        /*private EditText edtTxtDescricao;
 
-        //Se os campos não estiverem preenchidos
-        if (descricao == null ||  descricao.equals("")
-                || saldoInicial == null || saldoInicial.equals("")
-                || saldoAtual == null || saldoAtual.equals("")) {
+        private Spinner spnTipoTransacao;
+        private Spinner spnContaDaTransacao;
 
-            showSnackBar("Por favor preencher todos os campos");
-
-        }else {  //Se os campos estiverem preenchidos salva/atualiza
-
-            if (transacao == null)
-                transacao = new Transacao();
-
-            transacao.setDescricao(descricao);
-
-            /*
-            transacao.setSaldo_inicial(Double.parseDouble(saldoInicial));
-            transacao.setSaldo_atual(Double.parseDouble(saldoAtual));
-            */
+        private RadioGroup rdGrpNaturezaTransacao;
+        private RadioButton rdBtnDedito;
 
 
-            //DAO
-            TransacaoRepository transacaoRepository = new TransacaoRepository(this);
-            transacaoRepository.salvarAtualizarConta(transacao);
+        private EditText edtTxtValor;
+        private RadioGroup rdGrpRepeticaoTransacao;
+        private RadioButton rdBtnUnicaTransacao;
 
-            //Intent de resultado
-            Intent resultIntent = new Intent();
-            setResult(RESULT_OK, resultIntent);
-            finish();
+        private LinearLayout linearAgrupadorRepeticaoTransacao;
+        private Spinner spinnerPeriodicidade;
+        private EditText editTextQtdDeRepeticao;
+        private EditText editTextDataTransacao;
+        private Button btnEscolherData;*/
+
+
+
+
+        String descricao = edtTxtDescricao.getText().toString();
+        String tipoDeTransacao = spnTipoTransacao.getSelectedItem().toString();
+        String contaDaTransacao = spnContaDaTransacao.getSelectedItem().toString();
+        boolean naturezaoperacaoDebito = rdBtnDedito.isChecked();
+        String valor = edtTxtValor.getText().toString();
+        boolean unicaTransacao = rdBtnUnicaTransacao.isChecked();
+        String periodicidade = null;
+        String qtdDeRepeticao = null;
+        String dataTransacao = null;
+        if (unicaTransacao == false){ //Repete
+            //Se repete então temos informações em campos adicionais para salvar
+
+            periodicidade = spinnerPeriodicidade.getSelectedItem().toString();
+            qtdDeRepeticao = editTextQtdDeRepeticao.getText().toString();
+            dataTransacao = editTextDataTransacao.getText().toString();
 
         }
 
 
 
+
+        //Se os campos não estiverem preenchidos
+        if(validaTextoCampo(descricao) && validaTextoCampo(tipoDeTransacao) && validaTextoCampo(contaDaTransacao) && validaTextoCampo(valor)) {
+            //Se os campos da seção superior estiverem ok verifica se precisa valdiar os campos da seção inferior (seção de repetiçao)
+
+
+            if (unicaTransacao == true) { //Única transação, já está td OK, basta salvar
+
+                //Salvar dados incluindo os dados apenas da seção "unica transacao" - não há dados para a repetição
+
+
+
+            }else { //Repete
+                //verificar os campos da seção repetição
+                if(validaTextoCampo(periodicidade) && validaTextoCampo(qtdDeRepeticao) && validaTextoCampo(dataTransacao)) {
+                    //Tudo OK, deve SALVAR para o caso em que há repetição
+                    //Salvar dados incluindo os dados da seção de repetição
+
+                }
+                else{ //campos da seção Repete ainda não estão ok
+                    showSnackBar(edtTxtDescricao, getResources().getString(R.string.preencher_todos_campos_corretamente));
+                }
+
+            }
+
+
+        }
+        else{ //os campos da seção superior não estão devidamente preenchidos
+            showSnackBar(edtTxtDescricao, getResources().getString(R.string.preencher_todos_campos_corretamente));
+
+        }
+
+
+
+
+    }
+
+    private boolean validaTextoCampo(String valor){
+        if(valor == null || valor.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+
+
+    private void ajustarComponentesUItransacaoUnicaOuRepete(){
+        if (rdBtnUnicaTransacao.isChecked()){ //Única
+
+            linearAgrupadorRepeticaoTransacao.setVisibility(View.GONE);
+        }
+        else{  //Repete
+
+            linearAgrupadorRepeticaoTransacao.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -262,5 +368,66 @@ public class TransacaoActivity extends AppCompatActivity {
                 Snackbar.LENGTH_LONG)
                 .show();
     }
+
+
+    private void showSnackBar(View view, String msg) {
+        Snackbar.make(view, msg,
+                Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+
+    /**
+     * To receive a callback when the user sets the date.
+     * @param view
+     * @param year
+     * @param month
+     * @param day
+     */
+    @Override //Método de callback da escolha da data
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        Calendar cal = new GregorianCalendar(year, month, day);
+        setDate(cal);
+    }
+
+
+    /**
+     * To set date on TextView
+     * @param calendar
+     */
+    private void setDate(final Calendar calendar) {
+        final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        //final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        editTextDataTransacao.setText(dateFormat.format(calendar.getTime()));
+
+    }
+
+
+    /**
+     * This callback method, call DatePickerFragment class,
+     * DatePickerFragment class returns calendar view.
+     * @param view
+     */
+    public void showDatePicker(View view){
+
+        DatePickerFragment fragment = new DatePickerFragment();
+        fragment.show(getSupportFragmentManager(), "date picker");
+    }
+
+
+    private void configurarBotaoEscolherData(){
+        btnEscolherData.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDatePicker(btnEscolherData);
+            }
+        });
+    }
+
+
+
+
+
+
+
 
 }

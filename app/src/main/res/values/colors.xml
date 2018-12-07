@@ -19,4 +19,6 @@
     <color name="colorSplashBG">#daf9b1</color>
 
     <color name="branco">#fff</color>
+    <color name="vermelho">#ff0000</color>
+    <color name="verde">#00ff00</color>
 </resources>
