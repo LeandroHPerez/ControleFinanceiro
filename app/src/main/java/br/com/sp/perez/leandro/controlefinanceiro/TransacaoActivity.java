@@ -261,28 +261,6 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
 
 
     private void salvarAtualizar(){
-        /*private EditText edtTxtDescricao;
-
-        private Spinner spnTipoTransacao;
-        private Spinner spnContaDaTransacao;
-
-        private RadioGroup rdGrpNaturezaTransacao;
-        private RadioButton rdBtnDedito;
-
-
-        private EditText edtTxtValor;
-        private RadioGroup rdGrpRepeticaoTransacao;
-        private RadioButton rdBtnUnicaTransacao;
-
-        private LinearLayout linearAgrupadorRepeticaoTransacao;
-        private Spinner spinnerPeriodicidade;
-        private EditText editTextQtdDeRepeticao;
-        private EditText editTextDataTransacao;
-        private Button btnEscolherData;*/
-
-
-
-
         String descricao = edtTxtDescricao.getText().toString();
         String tipoDeTransacao = spnTipoTransacao.getSelectedItem().toString();
         String contaDaTransacao = spnContaDaTransacao.getSelectedItem().toString();
