@@ -28,7 +28,7 @@ public class MotherRepository extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        //As classes repository têm a responsabilidade e forncecer o script de criação
+        //As classes repository têm a responsabilidade e fornececer o script de criação
         sqLiteDatabase.execSQL(ContaRepository.getDATABASE_CREATE_V1());      //Cria o banco
         sqLiteDatabase.execSQL(TransacaoRepository.getDATABASE_CREATE_V1()); //Cria o banco
 
@@ -48,6 +48,13 @@ public class MotherRepository extends SQLiteOpenHelper {
 
 
         }
+
+    }
+
+
+    public void criarEstruturaBD(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.close();
 
     }
 

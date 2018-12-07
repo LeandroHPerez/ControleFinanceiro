@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         //DAO
         motherRepository = new MotherRepository(this);
+        motherRepository.criarEstruturaBD();
         contaRepository = new ContaRepository(this);
 
         Conta c = new Conta();

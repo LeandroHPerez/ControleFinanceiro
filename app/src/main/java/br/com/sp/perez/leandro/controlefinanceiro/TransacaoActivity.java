@@ -289,7 +289,37 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
 
             if (unicaTransacao == true) { //Única transação, já está td OK, basta salvar
 
-                //Salvar dados incluindo os dados apenas da seção "unica transacao" - não há dados para a repetição
+                //Salvar dados incluindo os dados apenas da seção "unica transacao" - não há dados para a repetição - SALVAR
+
+                /*
+                if (transacao == null)
+                    transacao = new Transacao();
+
+                transacao.setDescricao(descricao);
+                transacao.setTipoTransacao(tipoDeTransacao);
+                Conta conta = contas.get((int) spnContaDaTransacao.getSelectedItemId());
+                transacao.setIdConta(conta.getId());
+                String natureza =  (naturezaoperacaoDebito == true) ? "D" : "C"; //Verifica se operação é débito ou crédito
+                transacao.setNaturezaTransacao(natureza);
+                Double valorParaDebitoCreditoComSinal = Double.parseDouble(valor);
+                if(naturezaoperacaoDebito == true){
+                    valorParaDebitoCreditoComSinal = valorParaDebitoCreditoComSinal * -1; //inverte o sinal para negativo para a operação de débito, lembrando que no aplicativo o valor digitado sempre é positivo sem sinal, o que muda é a operação ser débito ou crédito
+                }
+                transacao.setValor(valorParaDebitoCreditoComSinal);
+                transacao.setUnica(true);*/
+
+                //popula a transação com os dados da seção superior da tela
+                preencherDadosDaTransacaoSecaoSuperior(descricao, tipoDeTransacao, naturezaoperacaoDebito, valor);
+
+
+                //DAO
+                TransacaoRepository transacaoRepository = new TransacaoRepository(this);
+                transacaoRepository.salvarAtualizarConta(transacao);
+
+                //Intent de resultado
+                Intent resultIntent = new Intent();
+                setResult(RESULT_OK, resultIntent);
+                finish();
 
 
 
@@ -297,7 +327,27 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
                 //verificar os campos da seção repetição
                 if(validaTextoCampo(periodicidade) && validaTextoCampo(qtdDeRepeticao) && validaTextoCampo(dataTransacao)) {
                     //Tudo OK, deve SALVAR para o caso em que há repetição
-                    //Salvar dados incluindo os dados da seção de repetição
+                    //Salvar dados incluindo os dados da seção de repetição - SALVAR
+
+                    //popula a transação com os dados da seção superior da tela
+                    preencherDadosDaTransacaoSecaoSuperior(descricao, tipoDeTransacao, naturezaoperacaoDebito, valor);
+
+                    //Preenche/acrescenta também os daodos de repetição de transação
+                    transacao.setPeriodicidade(periodicidade);
+                    transacao.setQtdRepeticoes(Long.parseLong(qtdDeRepeticao));
+                    transacao.setDataLancamento(dataTransacao);
+
+
+                    //DAO
+                    TransacaoRepository transacaoRepository = new TransacaoRepository(this);
+                    transacaoRepository.salvarAtualizarConta(transacao);
+
+                    //Intent de resultado
+                    Intent resultIntent = new Intent();
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+
+
 
                 }
                 else{ //campos da seção Repete ainda não estão ok
@@ -315,7 +365,6 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
 
 
 
-
     }
 
     private boolean validaTextoCampo(String valor){
@@ -323,6 +372,26 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
             return false;
         }
         return true;
+    }
+
+
+
+    private void preencherDadosDaTransacaoSecaoSuperior(String descricao, String tipoDeTransacao, boolean naturezaoperacaoDebito, String valor){
+        if (transacao == null)
+            transacao = new Transacao();
+
+        transacao.setDescricao(descricao);
+        transacao.setTipoTransacao(tipoDeTransacao);
+        Conta conta = contas.get((int) spnContaDaTransacao.getSelectedItemId());
+        transacao.setIdConta(conta.getId());
+        String natureza =  (naturezaoperacaoDebito == true) ? "D" : "C"; //Verifica se operação é débito ou crédito
+        transacao.setNaturezaTransacao(natureza);
+        Double valorParaDebitoCreditoComSinal = Double.parseDouble(valor);
+        if(naturezaoperacaoDebito == true){
+            valorParaDebitoCreditoComSinal = valorParaDebitoCreditoComSinal * -1; //inverte o sinal para negativo para a operação de débito, lembrando que no aplicativo o valor digitado sempre é positivo sem sinal, o que muda é a operação ser débito ou crédito
+        }
+        transacao.setValor(valorParaDebitoCreditoComSinal);
+        transacao.setUnica(true);
     }
 
 
