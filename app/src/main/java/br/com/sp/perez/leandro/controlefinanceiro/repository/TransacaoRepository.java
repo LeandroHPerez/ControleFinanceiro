@@ -191,7 +191,7 @@ public class TransacaoRepository extends SQLiteOpenHelper {
     }
 
 
-    public Transacao consultarTransacaoPorID(int idTransacao){
+    public Transacao consultarTransacaoPorIdTransacao(int idTransacao){
 
         Transacao transacao = new Transacao();
 
@@ -209,6 +209,56 @@ public class TransacaoRepository extends SQLiteOpenHelper {
 
         return transacao;
     }
+
+
+
+
+    public List<Transacao> listarTransacoesPorIdConta(Long idConta) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        List<Transacao> transacoes =  new ArrayList<Transacao>();
+
+        Cursor cursor = db.query(KEY_DATABASE_TABLE, null, KEY_ID_CONTA + " ?", new String[]{String.valueOf(idConta)}, null, null, KEY_DESCRICAO);
+
+        while (cursor.moveToNext()){
+            Transacao transacao = new Transacao();
+
+            setTransacaoFromCursor(cursor, transacao);
+
+            transacoes.add(transacao);
+        }
+
+        cursor.close();
+
+        db.close();
+
+        return transacoes;
+
+    }
+
+
+
+
+    public Double obterValorTotalTransacoesPorIdConta(Long idConta) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Double resultado = null;
+        String stringQuery = "SELECT SUM(" + KEY_VALOR + ") FROM " + KEY_DATABASE_TABLE + " WHERE " + KEY_ID_CONTA + " = " + Long.toString(idConta);
+        Cursor cursor = db.rawQuery(stringQuery, null);
+        if(cursor.moveToFirst())
+            resultado = cursor.getDouble(0);
+        else
+            resultado = null;
+        cursor.close();
+        db.close();
+
+        return  resultado;
+    }
+
+
+
+
+
 
 
 
