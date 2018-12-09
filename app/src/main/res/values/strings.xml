@@ -33,6 +33,7 @@
     <string name="repete">Repete</string>
     <string name="data">Data:</string>
     <string name="data_inicial">Data inicial:</string>
+    <string name="data_final">Data final:</string>
     <string name="alterar_data">Alterar data</string>
     <string name="periodicidade">Periodicidade:</string>
     <string name="quantidade_de_repeticoes">Quantidade de repetições:</string>
@@ -40,10 +41,10 @@
     <string name="title_activity_extrato">ExtratoActivity</string>
 
 
-    <string name="tipo_extrato">Pesquisar extrato por:</string>
+    <string name="tipo_extrato">Pesquisar extratode transação por:</string>
     <string name="ExtratoPorPeriodo">Período</string>
-    <string name="ExtratoPorNaturezaTransacao">Natureza Transação</string>
-    <string name="ExtratoPorTipoTransacao">Tipo Transação</string>
+    <string name="ExtratoPorNaturezaTransacao">Natureza</string>
+    <string name="ExtratoPorTipoTransacao">Tipo</string>
     <string name="gerar_extrato_da_conta">Gerar extrato</string>c
 
 

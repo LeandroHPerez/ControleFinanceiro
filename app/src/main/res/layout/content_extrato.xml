@@ -10,7 +10,7 @@
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -49,6 +49,137 @@
         </RadioGroup>
 
 
+    <LinearLayout
+        android:id="@+id/lytPorPeriodo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/linearAgrupadorDataTransacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/txtDataInicial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/data_inicial">
+            </TextView>
+            <EditText
+                android:id="@+id/editTextDataTransacaoInicial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01/01/2018"
+                android:enabled="false">
+            </EditText>
+            <Button
+                android:id="@+id/btnEscolherDataInicial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alterar_data">
+            </Button>
+
+
+        </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/linearAgrupadorDataTransacaoFinal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+
+        <TextView
+            android:id="@+id/txtDataFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data_final"></TextView>
+
+        <EditText
+            android:id="@+id/editTextDataTransacaoFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="01/01/2018"></EditText>
+
+        <Button
+            android:id="@+id/btnEscolherDataFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alterar_data"></Button>
+    </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lytPorNaturezaTransacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/rdGrpNaturezaTransacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <RadioButton
+                android:id="@+id/rdBtnDeditoExtrato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/debito"/>
+
+            <RadioButton
+                android:id="@+id/rdBtnCreditoExtrato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/credito"/>
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lytPorTipoTransacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/txtTipoTransacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipoTransacao">
+        </TextView>
+        <Spinner
+            android:id="@+id/spinnerTipoTransacaoExtrato"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+    </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView
