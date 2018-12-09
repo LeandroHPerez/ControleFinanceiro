@@ -256,6 +256,23 @@ public class TransacaoRepository extends SQLiteOpenHelper {
     }
 
 
+    public Double obterSaldoAtualTotalDeTodasAsContas() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Double resultado = null;
+
+        String stringQuery = "SELECT (SELECT SUM(saldo_inicial) FROM tb_contas) + (SELECT SUM(valor) FROM tb_transacoes) as total";
+        Cursor cursor = db.rawQuery(stringQuery, null);
+        if(cursor.moveToFirst())
+            resultado = cursor.getDouble(0);
+        else
+            resultado = null;
+        cursor.close();
+        db.close();
+
+        return  resultado;
+    }
+
+
 
 
 

@@ -9,12 +9,14 @@
     <string name="descricao">Descrição:</string>
     <string name="saldo_inicial">Saldo inicial:</string>
     <string name="saldo_atual">Saldo atual:</string>
+    <string name="saldo_atual_total">Saldo atual total:</string>
 
 
     <string name="conta_adicionada">Conta adicionada</string>
     <string name="conta_alterada">Conta alterada</string>
 
     <string name="nova_transacao">Nova transação</string>
+    <string name="transacao_adicionada">Transação adicionada</string>
     <string name="title_activity_transacao">TransacaoActivity</string>
 
     <string name="titulo_transacao">Transação</string>

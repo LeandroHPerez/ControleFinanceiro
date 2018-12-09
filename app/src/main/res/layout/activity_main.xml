@@ -35,6 +35,18 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
+    <TextView
+        android:id="@+id/saldoAtualTotal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:text="@string/saldo_atual_total"
+        android:textColor="@color/primary_alert"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="visible" />
+
+
 
 
 

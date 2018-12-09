@@ -1,6 +1,7 @@
 package br.com.sp.perez.leandro.controlefinanceiro;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,6 +36,7 @@ import br.com.sp.perez.leandro.controlefinanceiro.adapter.ContasAdapter;
 import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
 import br.com.sp.perez.leandro.controlefinanceiro.repository.ContaRepository;
 import br.com.sp.perez.leandro.controlefinanceiro.repository.MotherRepository;
+import br.com.sp.perez.leandro.controlefinanceiro.repository.TransacaoRepository;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
 
     private MotherRepository motherRepository;
     private ContaRepository contaRepository;
+    private TransacaoRepository transacaoRepository;
 
 
     private TextView txtEmpty;
+    private TextView txtSaldoAtualTotal;
 
     FloatingActionButton fab, fab1, fab2, fab3;
     LinearLayout fabLayout1, fabLayout2, fabLayout3;
@@ -78,36 +82,16 @@ public class MainActivity extends AppCompatActivity {
         ajustarOnClickListenerFOABS();
 
 
+        txtEmpty = (TextView) findViewById(R.id.empty_view);
 
-
-
-
-
-
-
-        txtEmpty= (TextView) findViewById(R.id.empty_view);
+        txtSaldoAtualTotal = (TextView) findViewById(R.id.saldoAtualTotal);
 
         //DAO
         motherRepository = new MotherRepository(this);
         motherRepository.criarEstruturaBD();
         contaRepository = new ContaRepository(this);
+        transacaoRepository = new TransacaoRepository(this);
 
-        Conta c = new Conta();
-        //.setId(2L);
-        c.setDescricao("Descrição 1");
-        c.setSaldo_inicial(1000.02);
-        c.setSaldo_atual(10001.03);
-        //contaRepository.salvarAtualizarConta(c);
-
-        //Conta c2 = contaRepository.listarContas().get(0);
-
-        //contaRepository.removerConta(contaRepository.listarContas().get(0));
-
-        //contaRepository.removerConta(c);
-
-
-
-        //contas = contaRepository.listarContas();
 
 
         //RecyclerView e Adapter
@@ -174,6 +158,18 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Conta conta = contas.get(position);
+
+
+                //Calcula o saldo atual
+                if(contaRepository == null)
+                    contaRepository = new ContaRepository(getApplicationContext());
+                Double resultado = contaRepository.calcularSaldoAtualConta(getApplicationContext(), conta); //a conta é feita dentro do método
+                if(resultado != null)
+                    conta.setSaldo_atual(resultado); //caso o resultado atual seja nulo é porque o saldo atual não é afetado pelas transações (não há transações) e deverá ser exibido com o valor cadastrado
+
+
+
+
                 Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
                 intent.putExtra(EXTRA_CONTA, conta);
 
@@ -232,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void updateUI(){
+    private void updateUI() {
 
         contas.clear();
         contas.addAll(contaRepository.listarContas());
@@ -241,10 +237,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.getAdapter().notifyDataSetChanged();
 
 
-        if (recyclerView.getAdapter().getItemCount()==0)
+        if (recyclerView.getAdapter().getItemCount() == 0){
             txtEmpty.setVisibility(View.VISIBLE);
-        else
+            txtSaldoAtualTotal.setVisibility(View.VISIBLE);
+
+            //txtSaldoAtualTotal.setVisibility(View.GONE);
+            //Saldo atual total
+            String saldoAtualTodasAsContas = getResources().getString(R.string.saldo_atual_total) + " " + "0,00";
+            txtSaldoAtualTotal.setText(saldoAtualTodasAsContas); //saldo total de todas as contas
+
+        }else{
             txtEmpty.setVisibility(View.GONE);
+
+            //Saldo atual total
+            String saldoAtualTodasAsContas = getResources().getString(R.string.saldo_atual_total) + " " + transacaoRepository.obterSaldoAtualTotalDeTodasAsContas().toString() ;
+            txtSaldoAtualTotal.setText(saldoAtualTodasAsContas); //saldo total de todas as contas
+    }
 
     }
 
@@ -265,6 +273,16 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_EDITAR_CONTA) {
             if (resultCode == RESULT_OK) {
                 showSnackBar(getResources().getString(R.string.conta_alterada));
+
+                updateUI();
+            }
+        }
+
+
+        //Nova transação
+        if (requestCode == REQUEST_CODE_NOVA_TRANSACAO) {
+            if (resultCode == RESULT_OK) {
+                showSnackBar(getResources().getString(R.string.transacao_adicionada));
 
                 updateUI();
             }
@@ -389,5 +407,14 @@ public class MainActivity extends AppCompatActivity {
                 // do whatever you want when the fab1 is clicked
             }
         });
+
+
+
     }
+
+
+
+
+
+
 }

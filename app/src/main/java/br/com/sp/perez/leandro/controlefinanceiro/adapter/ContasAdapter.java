@@ -17,6 +17,9 @@ import java.util.List;
 
 import br.com.sp.perez.leandro.controlefinanceiro.R;
 import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
+import br.com.sp.perez.leandro.controlefinanceiro.model.Transacao;
+import br.com.sp.perez.leandro.controlefinanceiro.repository.ContaRepository;
+import br.com.sp.perez.leandro.controlefinanceiro.repository.TransacaoRepository;
 
 public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewHolder> {
 
@@ -26,6 +29,8 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
 
     //Listener de cliques
     private static ItemClickListener clickListener;
+
+    private ContaRepository contaRepository;
 
     public ContasAdapter(List<Conta> contas, Context context) {
         this.contas = contas;
@@ -45,7 +50,21 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
 
         //contaViewHolder.imgConta;
         contaViewHolder.txtDescricao.setText(conta.getDescricao());
-        contaViewHolder.txtSaldoAtual.setText(conta.getSaldo_atual().toString());
+
+        //Calcula o saldo atual
+        if(contaRepository == null)
+            contaRepository = new ContaRepository(context);
+        Double resultado = contaRepository.calcularSaldoAtualConta(context, conta); //a conta é feita dentro do método
+        if(resultado == null) //caso o resultado atual seja nulo é porque o saldo atual não é afetado pelas transações (não há transações) e deverá ser exibido com o valor cadastrado
+            contaViewHolder.txtSaldoAtual.setText(conta.getSaldo_atual().toString());
+        else
+            contaViewHolder.txtSaldoAtual.setText(resultado.toString());
+
+
+
+
+
+
         contaViewHolder.txtSaldoInicial.setText(conta.getSaldo_inicial().toString());
         //contaViewHolder.btnDetalhes
 
@@ -106,6 +125,12 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
     public interface ItemClickListener {
         void onItemClick(int position);
     }
+
+
+
+
+
+
 
 
 

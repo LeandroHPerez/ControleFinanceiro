@@ -173,6 +173,24 @@ public class ContaRepository extends SQLiteOpenHelper {
     }
 
 
+    public Double calcularSaldoAtualConta(Context contexto, Conta conta){
+        //DAO
+        TransacaoRepository transacaoRepository = new TransacaoRepository(contexto);
+        //List<Transacao> transacoesConta = transacaoRepository.listarTransacoesPorIdConta(conta.getId());
+/*
+        Double a, b, c;
+        a = conta.getSaldo_inicial();
+        b =  transacaoRepository.obterValorTotalTransacoesPorIdConta(conta.getId());
+        c = a + b;
+        */
+
+        return conta.getSaldo_inicial() + transacaoRepository.obterValorTotalTransacoesPorIdConta(conta.getId());
+
+
+
+    }
+
+
 
 
 }
