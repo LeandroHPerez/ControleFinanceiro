@@ -62,8 +62,10 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_CODE_NOVA_CONTA = 0;
     private final int REQUEST_CODE_EDITAR_CONTA = 1;
     public static final String EXTRA_CONTA = "EXTRA_CONTA";
+    public static final String EXTRA_EXTRATO_RELATORIO = "EXTRA_EXTRATO_RELATORIO";
 
     private final int REQUEST_CODE_NOVA_TRANSACAO = 2;
+    private final int REQUEST_CODE_GERAR_EXTRATO = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
         //recyclerView.setOnItemClickListener(clickListenerPessoas);
 
 
+
+        /* old
         contasAdapter.setClickListener(new ContasAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -179,6 +183,59 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        */
+
+
+        contasAdapter.setClickListenerCustom(new ContasAdapter.ItemClickListenerCustom() {
+            @Override
+            public void onItemClickCard(int position) {
+
+                Conta conta = contas.get(position);
+
+
+                //Calcula o saldo atual
+                if(contaRepository == null)
+                    contaRepository = new ContaRepository(getApplicationContext());
+                Double resultado = contaRepository.calcularSaldoAtualConta(getApplicationContext(), conta); //a conta é feita dentro do método
+                if(resultado != null)
+                    conta.setSaldo_atual(resultado); //caso o resultado atual seja nulo é porque o saldo atual não é afetado pelas transações (não há transações) e deverá ser exibido com o valor cadastrado
+
+
+
+
+                Intent intent = new Intent(getApplicationContext(), ContaActivity.class);
+                intent.putExtra(EXTRA_CONTA, conta);
+
+                //Editar conta
+                startActivityForResult(intent, REQUEST_CODE_EDITAR_CONTA);
+
+            }
+
+            @Override
+            public void onItemClickBotaoGerarRelatorio(int position) {
+                //Toast.makeText(getApplicationContext(),"Entrou Gerar Relatorio", Toast.LENGTH_LONG).show();
+
+
+                Intent intent = new Intent(getApplicationContext(), ExtratoActivity.class);
+                Conta conta = contas.get(position);
+
+                intent.putExtra(EXTRA_EXTRATO_RELATORIO, conta);
+
+                //Gerar Extrato - Relatório
+                startActivityForResult(intent, REQUEST_CODE_GERAR_EXTRATO);
+            }
+        });
+
+
+
+
+
+
+
+
+
 
 
 
@@ -411,6 +468,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
 
 
 

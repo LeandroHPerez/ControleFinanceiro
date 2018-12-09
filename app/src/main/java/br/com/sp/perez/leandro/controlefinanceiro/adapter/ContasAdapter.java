@@ -1,6 +1,7 @@
 package br.com.sp.perez.leandro.controlefinanceiro.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -12,9 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
+import br.com.sp.perez.leandro.controlefinanceiro.ContaActivity;
+import br.com.sp.perez.leandro.controlefinanceiro.ExtratoActivity;
+import br.com.sp.perez.leandro.controlefinanceiro.MainActivity;
 import br.com.sp.perez.leandro.controlefinanceiro.R;
 import br.com.sp.perez.leandro.controlefinanceiro.model.Conta;
 import br.com.sp.perez.leandro.controlefinanceiro.model.Transacao;
@@ -28,7 +33,12 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
     private Context context;
 
     //Listener de cliques
-    private static ItemClickListener clickListener;
+   // private static ItemClickListener clickListener;
+    private static ItemClickListenerCustom clickListenerCustom;
+
+
+
+
 
     private ContaRepository contaRepository;
 
@@ -67,9 +77,8 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
 
         contaViewHolder.txtSaldoInicial.setText(conta.getSaldo_inicial().toString());
         //contaViewHolder.btnDetalhes
-
-
     }
+
 
     @Override
     public int getItemCount() {
@@ -83,7 +92,7 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
         final TextView txtDescricao;
         final TextView txtSaldoAtual;
         final TextView txtSaldoInicial;
-        final Button btnDetalhes;
+        final Button btnGerarExtratoConta;
 
         public ContaViewHolder(View itemView) {
             super(itemView);
@@ -92,29 +101,63 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
             txtDescricao = (TextView)    itemView.findViewById(R.id.txtDescricao);
             txtSaldoAtual = (TextView)   itemView.findViewById(R.id.txtSaldoAtual);
             txtSaldoInicial = (TextView) itemView.findViewById(R.id.txtSaldoInicial);
-            btnDetalhes = (Button)       itemView.findViewById(R.id.btnNovaTransacao);
+            btnGerarExtratoConta = (Button)       itemView.findViewById(R.id.btnGerarExtratoDaConta);
 
 
             //Atribui o click listener para a linha
             itemView.setOnClickListener(this);
+            btnGerarExtratoConta.setOnClickListener(this);
+
+/*
+            //Gerar relatório
+            btnGerarExtratoConta.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(v.getContext(), "Item Clicado!", Toast.LENGTH_SHORT).show();
+
+                    int position = getAdapterPosition(); //posição item clicado
+
+                    Conta conta = contas.get(position);
 
 
+                    //ContaRepository contaRepository = new ContaRepository(v.getContext());
+
+                    Intent intent = new Intent(v.getContext(), ExtratoActivity.class);
+                    intent.putExtra(EXTRA_EXTRATO_RELATORIO, conta);
 
 
+                }
+            });
 
+            */
 
 
         }
 
         @Override
         public void onClick(View v) {
-            if (clickListener != null)
-                clickListener.onItemClick(getAdapterPosition()); //retorna a posição do clique //Returns the Adapter position of the item represented by this ViewHolder.
+            //if (clickListener != null)
+                //clickListener.onItemClick(getAdapterPosition()); //retorna a posição do clique //Returns the Adapter position of the item represented by this ViewHolder.
+           //Toast.makeText(v.getContext(),"Entrou on click", Toast.LENGTH_SHORT).show();
+
+            if (clickListenerCustom != null)
+                if (v.getId() == R.id.btnGerarExtratoDaConta) {
+                    clickListenerCustom.onItemClickBotaoGerarRelatorio(getAdapterPosition()); //retorna a posição do clique //Returns the Adapter position of the item represented by this ViewHolder.
+            } else if (v.getId() == R.id.linhaConta)
+                    clickListenerCustom.onItemClickCard(getAdapterPosition()); //retorna a posição do clique //Returns the Adapter position of the item represented by this ViewHolder.
         }
-    }
+
+        }
 
 
 
+
+
+
+
+
+
+/*
 
     //Listener de cliques
     public void setClickListener(ItemClickListener itemClickListener) {
@@ -124,15 +167,23 @@ public class ContasAdapter extends RecyclerView.Adapter<ContasAdapter.ContaViewH
     //Interface de clique
     public interface ItemClickListener {
         void onItemClick(int position);
+    }*/
+
+
+
+
+
+
+    //Listener de cliques
+    public void setClickListenerCustom(ItemClickListenerCustom itemListener) {
+        clickListenerCustom = itemListener;
     }
 
-
-
-
-
-
-
-
+    //Interface de clique
+    public interface ItemClickListenerCustom {
+        void onItemClickCard(int position);
+        void onItemClickBotaoGerarRelatorio(int position);
+    }
 
 
 

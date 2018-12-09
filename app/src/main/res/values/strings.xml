@@ -37,10 +37,14 @@
     <string name="periodicidade">Periodicidade:</string>
     <string name="quantidade_de_repeticoes">Quantidade de repetições:</string>
     <string name="preencher_todos_campos_corretamente">Por favor preencher todos os campos corretamente</string>
+    <string name="title_activity_extrato">ExtratoActivity</string>
 
 
-
-
+    <string name="tipo_extrato">Pesquisar extrato por:</string>
+    <string name="ExtratoPorPeriodo">Período</string>
+    <string name="ExtratoPorNaturezaTransacao">Natureza Transação</string>
+    <string name="ExtratoPorTipoTransacao">Tipo Transação</string>
+    <string name="gerar_extrato_da_conta">Gerar extrato</string>c
 
 
 </resources>

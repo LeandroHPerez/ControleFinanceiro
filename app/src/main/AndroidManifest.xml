@@ -26,6 +26,10 @@
         <activity
             android:name=".TransacaoActivity"
             android:label="@string/title_activity_transacao"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ExtratoActivity"
+            android:label="@string/title_activity_extrato"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
