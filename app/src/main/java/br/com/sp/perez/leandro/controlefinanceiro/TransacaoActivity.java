@@ -444,9 +444,7 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
      */
     private void setDate(final Calendar calendar) {
         final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        //final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         editTextDataTransacao.setText(dateFormat.format(calendar.getTime()));
-
     }
 
 
