@@ -274,6 +274,60 @@ public class TransacaoRepository extends SQLiteOpenHelper {
 
 
 
+    public List<Transacao> listarTransacoesDaContaPorNatureza(Long idConta, String naturezaD_ou_C) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        List<Transacao> transacoes =  new ArrayList<Transacao>();
+
+        Cursor cursor = db.query(KEY_DATABASE_TABLE, null, KEY_ID_CONTA + "=?" + " AND " + KEY_NATUREZA_TRANSACAO + "=?" , new String[]{String.valueOf(idConta), naturezaD_ou_C}, null, null, KEY_DESCRICAO);
+
+        while (cursor.moveToNext()){
+            Transacao transacao = new Transacao();
+
+            setTransacaoFromCursor(cursor, transacao);
+
+            transacoes.add(transacao);
+        }
+
+        cursor.close();
+
+        db.close();
+
+        return transacoes;
+
+    }
+
+
+
+
+
+    public List<Transacao> listarTransacoesDaContaPorTipo(Long idConta, String tipoTransacao) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        List<Transacao> transacoes =  new ArrayList<Transacao>();
+
+        Cursor cursor = db.query(KEY_DATABASE_TABLE, null, KEY_ID_CONTA + "=?" + " AND " + KEY_TIPO_TRANSACAO + "=?" , new String[]{String.valueOf(idConta), tipoTransacao}, null, null, KEY_DESCRICAO);
+
+        while (cursor.moveToNext()){
+            Transacao transacao = new Transacao();
+
+            setTransacaoFromCursor(cursor, transacao);
+
+            transacoes.add(transacao);
+        }
+
+        cursor.close();
+
+        db.close();
+
+        return transacoes;
+
+    }
+
+
+
 
 
 

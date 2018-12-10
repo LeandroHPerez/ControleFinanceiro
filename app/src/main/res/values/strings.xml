@@ -41,11 +41,12 @@
     <string name="title_activity_extrato">ExtratoActivity</string>
 
 
-    <string name="tipo_extrato">Pesquisar extratode transação por:</string>
+    <string name="tipo_extrato">Pesquisar extrato de transação por:</string>
     <string name="ExtratoPorPeriodo">Período</string>
     <string name="ExtratoPorNaturezaTransacao">Natureza</string>
     <string name="ExtratoPorTipoTransacao">Tipo</string>
-    <string name="gerar_extrato_da_conta">Gerar extrato</string>c
+    <string name="gerar_extrato_da_conta">Gerar extrato</string>
+    <string name="pesquisar">Pesquisar</string>
 
 
 </resources>

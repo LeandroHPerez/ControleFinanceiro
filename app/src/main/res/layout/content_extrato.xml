@@ -182,8 +182,16 @@
     </LinearLayout>
 
 
+        <Button
+            android:id="@+id/btnPesquisar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pesquisar">
+        </Button>
+
+
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
+            android:id="@+id/my_recycler_view_extrato"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

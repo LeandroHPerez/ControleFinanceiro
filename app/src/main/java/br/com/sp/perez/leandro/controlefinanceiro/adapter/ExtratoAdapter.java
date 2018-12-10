@@ -24,11 +24,6 @@ public class ExtratoAdapter extends Adapter<ExtratoAdapter.ExtratoViewHolder> {
     private static List<Transacao> transacoes;
     private Context context;
 
-    //Listener de cliques
-   // private static ItemClickListener clickListener;
-    private static ItemClickListenerCustom clickListenerCustom;
-
-
 
 
 
@@ -53,23 +48,10 @@ public class ExtratoAdapter extends Adapter<ExtratoAdapter.ExtratoViewHolder> {
 
         //contaViewHolder.imgConta;
         contaViewHolder.txtDescricao.setText(transacao.getDescricao());
-
-        //Calcula o saldo atual
-        if(contaRepository == null)
-            contaRepository = new ContaRepository(context);
-        Double resultado = transacaoRepository.obterSaldoAtualTotalDeTodasAsContas(); //a conta é feita dentro do método
-        if(resultado == null) //caso o resultado atual seja nulo é porque o saldo atual não é afetado pelas transações (não há transações) e deverá ser exibido com o valor cadastrado
-            contaViewHolder.txtSaldoAtual.setText(transacao.getDescricao().toString());
-        else
-            contaViewHolder.txtSaldoAtual.setText(resultado.toString());
-
-
-
-
-
-
-        contaViewHolder.txtSaldoInicial.setText(transacao.getDescricao().toString());
-        //contaViewHolder.btnDetalhes
+        contaViewHolder.txtTipoTransacao.setText(transacao.getTipoTransacao());
+        contaViewHolder.txtNatureza.setText(transacao.getNaturezaTransacao());
+        contaViewHolder.txtValor.setText(transacao.getValor().toString());
+        contaViewHolder.txtDataLancamento.setText(transacao.getDataLancamento());
     }
 
 
@@ -81,102 +63,36 @@ public class ExtratoAdapter extends Adapter<ExtratoAdapter.ExtratoViewHolder> {
 
     public static class ExtratoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        final ImageView imgConta;
         final TextView txtDescricao;
-        final TextView txtSaldoAtual;
-        final TextView txtSaldoInicial;
-        final Button btnGerarExtratoConta;
+        final TextView txtTipoTransacao;
+        final TextView txtNatureza;
+        final TextView txtValor;
+        final TextView txtDataLancamento;
 
         public ExtratoViewHolder(View itemView) {
             super(itemView);
 
-            imgConta = (ImageView)       itemView.findViewById(R.id.imgConta);
+
             txtDescricao = (TextView)    itemView.findViewById(R.id.txtDescricao);
-            txtSaldoAtual = (TextView)   itemView.findViewById(R.id.txtSaldoAtual);
-            txtSaldoInicial = (TextView) itemView.findViewById(R.id.txtSaldoInicial);
-            btnGerarExtratoConta = (Button)       itemView.findViewById(R.id.btnGerarExtratoDaConta);
+            txtTipoTransacao = (TextView)   itemView.findViewById(R.id.txtTipoTransacao);
+            txtNatureza = (TextView) itemView.findViewById(R.id.txtNatureza);
+            txtValor = (TextView) itemView.findViewById(R.id.txtValor);
+            txtDataLancamento = (TextView) itemView.findViewById(R.id.txtDataLancamento);
+
 
 
             //Atribui o click listener para a linha
             itemView.setOnClickListener(this);
-            btnGerarExtratoConta.setOnClickListener(this);
-
-/*
-            //Gerar relatório
-            btnGerarExtratoConta.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Toast.makeText(v.getContext(), "Item Clicado!", Toast.LENGTH_SHORT).show();
-
-                    int position = getAdapterPosition(); //posição item clicado
-
-                    Conta conta = contas.get(position);
-
-
-                    //ContaRepository contaRepository = new ContaRepository(v.getContext());
-
-                    Intent intent = new Intent(v.getContext(), ExtratoActivity.class);
-                    intent.putExtra(EXTRA_EXTRATO_RELATORIO, conta);
-
-
-                }
-            });
-
-            */
 
 
         }
 
         @Override
         public void onClick(View v) {
-            //if (clickListener != null)
-                //clickListener.onItemClick(getAdapterPosition()); //retorna a posição do clique //Returns the Adapter position of the item represented by this ViewHolder.
-           //Toast.makeText(v.getContext(),"Entrou on click", Toast.LENGTH_SHORT).show();
-
-            if (clickListenerCustom != null)
-                if (v.getId() == R.id.btnGerarExtratoDaConta) {
-                    clickListenerCustom.onItemClickBotaoGerarRelatorio(getAdapterPosition()); //retorna a posição do clique //Returns the Adapter position of the item represented by this ViewHolder.
-            } else if (v.getId() == R.id.linhaConta)
-                    clickListenerCustom.onItemClickCard(getAdapterPosition()); //retorna a posição do clique //Returns the Adapter position of the item represented by this ViewHolder.
+            //Não faz nada, mas fica de molde para uma evolução de código futura
         }
 
         }
-
-
-
-
-
-
-
-
-
-/*
-
-    //Listener de cliques
-    public void setClickListener(ItemClickListener itemClickListener) {
-        clickListener = itemClickListener;
-    }
-
-    //Interface de clique
-    public interface ItemClickListener {
-        void onItemClick(int position);
-    }*/
-
-
-
-
-
-
-    //Listener de cliques
-    public void setClickListenerCustom(ItemClickListenerCustom itemListener) {
-        clickListenerCustom = itemListener;
-    }
-
-    //Interface de clique
-    public interface ItemClickListenerCustom {
-        void onItemClickCard(int position);
-        void onItemClickBotaoGerarRelatorio(int position);
-    }
 
 
 
