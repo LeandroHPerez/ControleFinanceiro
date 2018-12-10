@@ -329,6 +329,33 @@ public class TransacaoRepository extends SQLiteOpenHelper {
 
 
 
+    public List<Transacao> listarTransacoesDaContaPorPeriodo(Long idConta, String periodoInicial, String periodoFinal) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        List<Transacao> transacoes =  new ArrayList<Transacao>();
+
+        Cursor cursor = db.query(KEY_DATABASE_TABLE, null, KEY_ID_CONTA + "=?" + " AND " + KEY_DATA_LANCAMENTO + ">=?"  + " AND " + KEY_DATA_LANCAMENTO + "<=?" , new String[]{String.valueOf(idConta), periodoInicial, periodoFinal}, null, null, KEY_DESCRICAO);
+
+        while (cursor.moveToNext()){
+            Transacao transacao = new Transacao();
+
+            setTransacaoFromCursor(cursor, transacao);
+
+            transacoes.add(transacao);
+        }
+
+        cursor.close();
+
+        db.close();
+
+        return transacoes;
+
+    }
+
+
+
+
 
 
 
