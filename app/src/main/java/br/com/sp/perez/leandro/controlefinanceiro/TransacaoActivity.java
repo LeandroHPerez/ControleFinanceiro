@@ -311,6 +311,12 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
                 //popula a transação com os dados da seção superior da tela
                 preencherDadosDaTransacaoSecaoSuperior(descricao, tipoDeTransacao, naturezaoperacaoDebito, valor);
 
+                //Adiçãode código para poder filtrar únicas por data
+                Calendar calendar = Calendar.getInstance();
+                final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                dataTransacao = dateFormat.format(calendar.getTime());
+                transacao.setDataLancamento(dataTransacao);
+
 
                 //DAO
                 TransacaoRepository transacaoRepository = new TransacaoRepository(this);
@@ -392,6 +398,8 @@ public class TransacaoActivity extends AppCompatActivity implements DatePickerDi
         }
         transacao.setValor(valorParaDebitoCreditoComSinal);
         transacao.setUnica(true);
+
+
     }
 
 
